@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/jsel.css" />
+    <script src="./scripts/select.js"></script>
+    <script src="./scripts/printForm.js"></script>
+    <title>Панель администратора</title>
+  </head>
+  <body>
+    <div class="body">
+      <nav class="navbar">
+        <div class="allbar">
+          <div class="tab selected">
+            <span class="text">Добавление</span>
+          </div>
+          <div class="tab">
+            <span class="text">График</span>
+          </div>
+          <div class="tab">
+            <span class="text">Статистика</span>
+          </div>
+          <div class="tab">
+            <span class="text">...</span>
+          </div>
+          <div class="tab">
+            <span class="text">...</span>
+          </div>
+        </div>
+      </nav>
+      <div class="rightbar">
+        <div class="block">
+          <h3>Линолиум</h3>
+          <button onclick="openForm(event,'linoleum')">Линолиум</button>
+          <button onclick="openForm(event,'collection','linoleum')">
+            Коллекция
+          </button>
+          <button onclick="openForm(event,'maker','linoleum')">
+            Производитель
+          </button>
+          <button onclick="openForm(event,'class','linoleum')">Класс</button>
+          <button onclick="openForm(event,'base','linoleum')">Основа</button>
+          <button onclick="openForm(event,'destination','linoleum')">
+            Предназначение
+          </button>
+          <button onclick="openForm(event,'type','linoleum')">Тип</button>
+          <button onclick="openForm(event,'price')">Цены</button>
+          <button onclick="openForm(event,'allowances')">Наценка</button>
+          <button onclick="openForm(event,'recommended')">Рек. плинтуса</button>
+        </div>
+        <div class="block">
+          <h3>Плинтуса</h3>
+          <button onclick="openForm(event,'collection','plinth')">
+            Коллекция
+          </button>
+          <button onclick="openForm(event,'maker','plinth')">
+            Производитель
+          </button>
+          <button onclick="openForm(event,'plinth')">Плинтус</button>
+          <button onclick="openForm(event,'accessories','plinth')">
+            Фурнитура
+          </button>
+        </div>
+        <div class="block">
+          <h3>Заявки</h3>
+          <button onclick="openForm(event,'connection','order')">
+            Тип связи
+          </button>
+          <button onclick="openForm(event,'cites','order')">Город</button>
+          <button onclick="openForm(event,'status','order')">Статус</button>
+        </div>
+      </div>
+      <main>
+        <!-- interface add -->
+        <div class="main">
+          <div class="block">
+            <h2>Добавление и редактирование информации о линолиумах</h2>
+            <div class="flex">
+              <button onclick="openForm(event,'linoleum')">Линолиум</button>
+              <button onclick="openForm(event,'collection','linoleum')">
+                Коллекция
+              </button>
+              <button onclick="openForm(event,'maker','linoleum')">
+                Производитель
+              </button>
+              <button onclick="openForm(event,'class','linoleum')">
+                Класс
+              </button>
+              <button onclick="openForm(event,'base','linoleum')">
+                Основа
+              </button>
+              <button onclick="openForm(event,'destination','linoleum')">
+                Предназначение
+              </button>
+              <button onclick="openForm(event,'type','linoleum')">Тип</button>
+              <button onclick="openForm(event,'price')">Цены</button>
+              <button onclick="openForm(event,'allowances')">Наценка</button>
+              <button onclick="openForm(event,'recommended')">
+                Рек. плинтуса
+              </button>
+            </div>
+          </div>
+          <div class="block">
+            <h2>Добавление и редактирование информации о плинтусах</h2>
+            <div class="flex">
+              <button onclick="openForm(event,'maker','plinth')">
+                Производитель
+              </button>
+              <button onclick="openForm(event,'collection','plinth')">
+                Коллекция
+              </button>
+              <button onclick="openForm(event,'plinth')">Плинтус</button>
+              <button onclick="openForm(event,'accessories','plinth')">
+                Фурнитура
+              </button>
+            </div>
+          </div>
+          <div class="block">
+            <h2>
+              Добавление и редактирование информации отображаемой в заявках
+            </h2>
+            <div class="flex">
+              <button onclick="openForm(event,'connection','order')">
+                Тип связи
+              </button>
+              <button onclick="openForm(event,'cites','order')">Город</button>
+              <button onclick="openForm(event,'status','order')">Статус</button>
+            </div>
+          </div>
+        </div>
+        <!-- inteface forms -->
+        <div class="form_block">
+          <h2 id="head"></h2>
+          <div class="flex">
+            <div class="form">
+              <form action="">
+                <table>
+                  <tbody></tbody>
+                </table>
+              </form>
+            </div>
+            <div class="list">
+              <h4>Список существущих</h4>
+              <div class="list_block">
+                <form>
+                  <div class="form_list"></div>
+                  <div class="interface">
+                    <button class="edit" name="edit">Изменить</button
+                    ><button onclick="del();" name="del" class="delete">
+                      Удалить
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

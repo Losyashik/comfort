@@ -1,0 +1,351 @@
+@charset "UTF-8";
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12pt;
+}
+
+.body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12pt;
+  display: -ms-grid;
+  display: grid;
+  height: 100vh;
+  grid-template: "navbar rightbar" "main rightbar";
+  -ms-grid-columns: calc(78vw - 1px) 22vw;
+      grid-template-columns: calc(78vw - 1px) 22vw;
+  -ms-grid-rows: 36px;
+      grid-template-rows: 36px;
+}
+
+@media screen and (max-width: 760px) {
+  nav .tab .text {
+    position: relative;
+  }
+  nav .tab .text::after {
+    content: "...";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 5px;
+    z-index: 2;
+    background-color: #fff;
+  }
+}
+
+@media screen {
+  nav {
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    grid-area: navbar;
+  }
+  nav .allbar {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    width: fill-available;
+    border: 1px solid;
+  }
+  nav .tab {
+    width: -webkit-fill-available;
+    width: -moz-available;
+    width: fill-available;
+    max-width: 20%;
+    text-align: center;
+    font-size: 14pt;
+    padding: 6px 4px;
+    border: 1px solid;
+    cursor: pointer;
+  }
+  nav .tab .text {
+    line-break: strict;
+    display: block;
+    grid-area: text;
+    text-align: center;
+    overflow: hidden;
+    width: 100%;
+  }
+  nav .tab.selected {
+    -webkit-box-shadow: inset 0px 0px 4px 0px;
+            box-shadow: inset 0px 0px 4px 0px;
+    background-color: #aaa;
+    border-bottom: outset;
+  }
+}
+
+.rightbar {
+  grid-area: rightbar;
+  width: 100%;
+  max-height: 100vh;
+  overflow-y: auto;
+  border-left: 1px solid;
+}
+
+.rightbar .block {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+}
+
+.rightbar .block h3 {
+  margin: 5px;
+}
+
+.rightbar .block button {
+  padding: 5px;
+  display: block;
+  width: 50%;
+  margin: 1px 0;
+}
+
+main {
+  height: 100%;
+  overflow-y: auto;
+}
+
+main .block {
+  width: 90%;
+  padding: 2vh 2vw;
+  height: 150px;
+  margin: 2vh auto;
+  border: 1px solid;
+}
+
+main .block .flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 60%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-line-pack: start;
+      align-content: flex-start;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+main .block .flex button {
+  width: 14%;
+  text-align: center;
+  padding: 4px 2px;
+  margin: 1vh 1%;
+  display: block;
+}
+
+main h2 {
+  text-align: center;
+}
+
+main .form_block {
+  display: none;
+}
+
+main .flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+main .flex .form,
+main .flex .list {
+  width: 50%;
+  padding: 2vh 2vw;
+}
+
+main .flex .form form,
+main .flex .list form {
+  width: 100%;
+}
+
+main .flex .form form label,
+main .flex .list form label {
+  width: 100%;
+}
+
+main .flex .form form label input,
+main .flex .list form label input {
+  display: contents;
+}
+
+main .flex .form form label .name,
+main .flex .list form label .name {
+  text-align: left;
+  padding: 5px;
+}
+
+main .flex .form form {
+  width: 90%;
+}
+
+main .flex .form form table {
+  width: 100%;
+}
+
+main .flex .form form .row .ceil {
+  padding-left: 5px;
+}
+
+main .flex .form form .row .ceil input,
+main .flex .form form .row .ceil .select,
+main .flex .form form .row .ceil textarea {
+  display: block;
+  width: calc(100% - 12px);
+  padding: 6px;
+  margin: 2vh auto;
+  border: 1px solid;
+  border-radius: 0;
+}
+
+main .flex .form form .row .button {
+  padding: 10px;
+  text-align: center;
+}
+
+main .flex .form form .row .file__upload__block {
+  width: 100%;
+  margin: 0 auto;
+}
+
+main .flex .form form .row .file__upload__block input[type="file"] {
+  display: none;
+}
+
+main .flex .form form .row .file__upload__block label {
+  display: block;
+  border: 1px solid;
+  width: 100%;
+  max-width: 422px;
+  height: 130px;
+  background-color: #aaa;
+  overflow: auto;
+  position: relative;
+}
+
+main .flex .form form .row .file__upload__block label.highlight {
+  background-color: #ccc;
+}
+
+main .flex .form form .row .file__upload__block label::-webkit-scrollbar {
+  width: 0px;
+  z-index: 10;
+}
+
+main .flex .form form .row .file__upload__block label::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.6);
+  /* цвет дорожки */
+}
+
+main .flex .form form .row .file__upload__block label::-webkit-scrollbar-thumb {
+  background-color: #000000;
+  /* цвет плашки */
+}
+
+main .flex .form form .row .file__upload__block label:hover::-webkit-scrollbar {
+  width: 7px;
+}
+
+main .flex .form form .row .file__upload__block label .preview {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 100%;
+}
+
+main .flex .form form .row .file__upload__block label .preview.images {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 5px;
+  height: auto;
+}
+
+main .flex .form form .row .file__upload__block label .preview .drop {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+main .flex .form form .row .file__upload__block label .preview .drop div {
+  width: 50%;
+  font-size: 0.8em;
+  color: #666;
+}
+
+main .flex .form form .row .file__upload__block label .preview img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+  width: 110px;
+  height: 110px;
+  margin: 5px;
+}
+
+main .flex .list_block {
+  width: 100%;
+  height: 70vh;
+  overflow: hidden;
+}
+
+main .flex .list_block form {
+  height: 70vh;
+}
+
+main .flex .list_block form .form_list {
+  height: calc(100% - 10vh - 2px);
+  padding: 1vh 1vw;
+  overflow: auto;
+  border: 1px solid;
+}
+
+main .flex .list_block form .interface {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 4vh;
+  margin: 2vh;
+  background-color: #fff;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+}
+/*# sourceMappingURL=style.css.map */

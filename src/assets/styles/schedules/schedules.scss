@@ -1,0 +1,184 @@
+.schedules_body {
+  width: 80%;
+  max-width: 1240px;
+  max-height: 1748px;
+  margin: 0 auto;
+  border: 1px solid;
+  .header {
+    font-size: 14pt;
+    text-align: center;
+    padding: 10px;
+    border-bottom: 1px solid;
+    span {
+      display: none;
+    }
+  }
+  .drag {
+    .block {
+      display: flex;
+      width: 100%;
+      height: 10%;
+      border-bottom: 1px solid;
+      &.selected {
+        background: #ccc;
+        opacity: 0.8;
+      }
+      &:last-child {
+        border: none;
+      }
+      .harm {
+        cursor: move;
+        user-select: none;
+        border-right: 1px solid;
+        width: 4%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .line {
+          margin: 2px 0;
+          user-select: none;
+          border: 1px solid;
+          width: 40%;
+        }
+      }
+      .info {
+        padding: 5px 30px;
+        border-right: 1px solid;
+        width: calc(85% - 12px);
+        display: flex;
+        justify-content: space-between;
+        ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+        }
+        h5 {
+          margin: 0;
+          text-align: center;
+        }
+        .note {
+          width: 30%;
+        }
+        pre {
+          margin: 0;
+        }
+      }
+      .time {
+        width: 10%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        input {
+          display: block;
+        }
+        span {
+          display: none;
+        }
+      }
+    }
+  }
+}
+.receipts {
+  display: none;
+  page-break-before: always;
+  margin: 2vh auto;
+  .receipt {
+    border: {
+      bottom: 1px solid;
+    }
+    padding: 10px;
+    margin: 1vh auto;
+    page-break-inside: avoid;
+    .info {
+      display: flex;
+      justify-content: space-between;
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        border: none;
+        tr {
+          .name {
+            width: 20%;
+          }
+          td {
+            border: 1px solid;
+          }
+        }
+      }
+    }
+    .list {
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 2vh 0;
+        tr {
+          th,
+          td {
+            border: 1px solid;
+            &.row {
+              border: none;
+              text-align: right;
+            }
+            &.center {
+              width: 15%;
+              text-align: center;
+            }
+            &.table_itog{
+              border-right: none;
+              text-align: right;
+            }
+            &.sum{
+              border-left: none;
+            }
+          }
+        }
+      }
+    }
+    .itog {
+      text-align: right;
+      text-decoration: underline;
+      margin-bottom: 1vh;
+    }
+  }
+}
+@media print {
+  .receipts {
+    display: block;
+  }
+  .schedules_body {
+    width: 95%;
+    margin: 0 auto;
+    .header {
+      input {
+        display: none;
+      }
+      span {
+        display: inline;
+      }
+    }
+    .drag {
+      .block {
+        .harm {
+          display: none;
+        }
+        .time {
+          width: 15%;
+          input {
+            display: none;
+          }
+          span {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}
+.none_item,
+.none_date {
+  display: flex;
+  height: 10vh;
+  justify-content: center;
+  align-items: center;
+}

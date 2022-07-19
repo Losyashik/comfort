@@ -1,0 +1,125 @@
+.leftbar {
+  grid-area: leftbar;
+  width: 100%;
+  height: 95vh;
+  border-right: 1px solid;
+  padding: 0 0 5vh;
+  .button {
+    width: 100%;
+    border: none;
+    background: none;
+    &.add {
+      width: 80%;
+      border: 1px solid #aaa;
+      background: linear-gradient(#ccc, #aaa);
+    }
+  }
+  .select_display {
+    border-bottom: 1px solid;
+    padding: 0.5vw;
+    h4 {
+      margin: 1vh;
+    }
+    .display_list {
+      cursor: pointer;
+      width: 28px;
+      height: 28px;
+      padding: 4px;
+    }
+  }
+  .sorting {
+    padding: 1vh 1vw;
+    max-height: 80vh;
+  }
+}
+a {
+  color: #000;
+  text-decoration: none;
+}
+.hidden {
+  display: none;
+}
+@media screen and (max-width: 760px) {
+  nav {
+    .tab {
+      .text {
+        position: relative;
+        &::after {
+          content: "...";
+          display: block;
+          position: absolute;
+          top: 0;
+          right: 0;
+          padding: 0 5px;
+          z-index: 2;
+          background-color: #fff;
+        }
+      }
+    }
+  }
+}
+@media screen {
+  nav {
+    width: 100%;
+    display: flex;
+    grid-area: navbar;
+
+    .allbar {
+      display: flex;
+      width: fill-available;
+      border: {
+        top: 1px solid;
+        bottom: 1px solid;
+        left: none;
+        right: none;
+      }
+    }
+    .tab {
+      width: fill-available;
+      max-width: 20%;
+      text-align: center;
+      font-size: 14pt;
+      padding: 6px 4px;
+      border: 1px solid;
+      display: grid;
+      justify-items: end;
+      grid-template: "text close";
+      grid-template-columns: 1fr 10px;
+      cursor: pointer;
+      &.interface {
+        width: calc(1.2em + 12px);
+        display: flex;
+        border: 2px solid;
+        padding: 0;
+        justify-content: center;
+        align-items: center;
+        a {
+          display: block;
+          width: calc(100% - 12px);
+          height: calc(100% - 12px);
+          padding: 6px 6px;
+        }
+        a:active {
+          box-shadow: inset 0px 0px 0px 0px;
+        }
+      }
+      .text {
+        line-break: strict;
+        display: block;
+        grid-area: text;
+        text-align: center;
+        overflow: hidden;
+        width: 100%;
+      }
+      .close {
+        display: block;
+        grid-area: close;
+      }
+      &.selected {
+        box-shadow: inset 0px 0px 4px 0px;
+        background-color: #aaa;
+        border-bottom: outset;
+      }
+    }
+  }
+}

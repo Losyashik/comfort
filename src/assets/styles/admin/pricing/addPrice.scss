@@ -1,0 +1,158 @@
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    height: calc(100vh - 40px);
+    overflow: auto;
+
+    form {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 10px;
+        width: 45%;
+        // min-height: 50%;
+        border: 1px solid;
+        justify-content: space-evenly;
+
+        h3 {
+            text-align: center;
+            width: 100%;
+        }
+        .select {
+            width: 50%;
+        }
+        select {
+            display: block;
+            width: 100%;
+            margin: 5px 5px;
+            font-size: 12pt;
+        }
+        .price{
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            label{
+                span{
+                    padding: 2px 5px;
+                }
+                width: 30%;
+                display: flex;
+                input{
+                    display: block;
+                    width: 100%;
+                }
+                &::after {
+                    content: "руб";
+                    padding: 2px 5px;
+                }
+            }
+        }
+        .width {
+            display: flex;
+            margin: 5px 10px;
+            min-width: 40%;
+            select {
+                border: none;
+                overflow: hidden;
+                margin: 0 5px 0 5px ;
+                height: 100%;
+                display: flex;
+                width: 50px;
+                outline: none;
+                padding: 0;
+                padding-top: 2px;
+                option {
+                    font-size: 12pt;
+                    display: block;
+                    margin: 4px 0;
+                    text-align: center;
+                    padding: 0;
+                    width: calc(100% - 2px);
+                    border: 1px solid;
+                    min-height: 0;
+                    &:first-child{
+                        margin: 2px 0;
+                    }
+                }
+            }
+            div {
+                display: flex;
+                flex-direction: column;
+                padding-top: 2px;
+                label {
+                    display: flex;
+                    margin: 0;
+                    padding: 0;
+                    input {
+                        font-size: 12pt;
+                        margin: 2px 0;
+                        display: block;
+                        border: 1px solid;
+                        width: 50px;
+                        padding: 0;
+                        outline: none;
+
+                    }
+                    &.none_select{
+                        font-size: 12pt;
+                        margin: 3px 0;
+                        &::after {
+                            content: "";
+                            padding: 2px 5px;
+                        }
+                    }
+                    &::after {
+                        content: "руб";
+                        padding: 2px 5px;
+                    }
+                }
+            }
+        }
+        .list{
+            min-width: 40%;
+            max-width: 45%;
+            margin: 5px 10px;
+            display: flex;
+            flex-direction: column;
+            .row{
+                max-width: 100%;
+                display: flex;
+                flex-direction: column;
+
+                .label{
+                    display: flex;
+                    flex-direction: column;
+                    margin: 0 0 0 10%;
+                    label{
+                        width: 100%;
+                        display: flex;
+                        margin: 2px 0;
+                        span{
+                            width: 20%;
+                            padding: 2px 5px;
+                            display: block;
+                        }
+                        display: flex;
+                        &::after {
+                            display: block;
+                            content: "руб";
+                            padding: 2px 5px;
+                        }
+                        input{
+                            width: 30%;
+                        }
+                    }
+                }
+                
+            }
+
+        }
+        button{
+            display: block;
+            width: 20%;
+            padding: 2px;
+            margin: 10px auto;
+        }
+    }
+}

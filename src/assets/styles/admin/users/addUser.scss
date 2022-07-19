@@ -1,0 +1,63 @@
+.registration_user{
+    position: absolute;
+    top:25vh;
+    left: 30%;
+    width: calc(40% - 4px);
+    background: #fff;
+    border: 2px solid;
+    .close{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 20px;
+        height: 20px;
+        img{
+            width: 100%;
+            height: 100%;
+        }
+    }
+    h4{
+        text-align: center;
+        margin: 1vh 0;
+        padding: 0;
+        font-size: 14pt;
+    }
+    form{
+        padding: 0 2vw 2vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        input{
+            display: block;
+            margin: 1vh auto;
+            padding: 2px 5px;
+            font-size: 14pt;
+            width: calc(100% - 10px); 
+            background: #fff;
+            transition: background .3s;
+            &.error_input{
+                background: rgba(255,0,0,.2);
+            }
+        }
+        .error{
+            width: 80%;
+            transition: all .4s;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 10px;
+            height: 0;
+            overflow: hidden;
+            background: rgba(255,0,0,.2);
+            &.active{
+                height: auto;
+                padding: 10px;
+            }
+        }
+        button{
+            font-size: 14pt;
+            margin: 1vh auto;
+            padding: 2px 5px;
+        }
+    }
+}

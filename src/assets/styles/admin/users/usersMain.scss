@@ -1,0 +1,91 @@
+.users {
+    width: 80%;
+    min-height: 100vh;
+    .add_user{
+        font-size: 14pt;
+        padding: .5vh .5vw;
+        margin: 2vh 2vw;
+        border: 2px solid;
+        background: #ccc;
+        &:active{
+            box-shadow: inset 0px 0px 10px 0px #000;
+        }
+    }
+}
+form.flex {
+    width: 70%;
+    margin: auto;
+    display: flex;
+    font-size: 14pt;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    h2 {
+        width: 100%;
+        text-align: center;
+    }
+    h3 {
+        padding: 0;
+        margin: 2vh 0;
+        text-align: center;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        li {
+            margin: 1vh 0;
+            label {
+                display: block;
+                width: 100%;
+                padding: 0.4vh 0;
+                input {
+                    margin: 1vh 1vw;
+                    visibility: hidden;
+                }
+            }
+            &.checked {
+                background: #ccc;
+            }
+        }
+    }
+    .users_list {
+        width: 45%;
+        border: 2px solid;
+        
+    }
+    .rights {
+        position: relative;
+        width: 45%;
+        border: 2px solid;
+        max-height: 60vh;
+        overflow: auto;
+        h3{
+            border-bottom:2px solid ;
+            position: sticky;
+            margin: 0;
+            top:0;
+            background:#fff;
+        }
+        h4{
+            margin: .2vh 0;
+            text-align: center;
+            background: #000;
+            color: #fff;
+        }
+        .item_inp{
+            display: block;
+            width: calc(100% - 2vw);
+            padding: 0.4vh 0 0.4vh 2vw;
+            span{
+                display: block;
+                margin: .4vh .4vw;
+            }
+        }
+    }
+    button{
+        width: 30%;
+        margin: 3vh 35%;
+        padding: 1vh 0;
+    }
+}
