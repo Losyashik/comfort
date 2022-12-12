@@ -271,6 +271,56 @@
         Сохранить
       </button>
     </form>
+    <form>
+      <h3>Сопутствующие товары</h3>
+      <select
+        name="provider"
+        v-model="related.provider"
+        @change="editLists('related')"
+      >
+        <option disabled value="0">Выберете поставщика</option>
+        <option v-for="item in providers" :value="item.id" :key="item.id">
+          {{ item.name }}
+        </option>
+      </select>
+      <select
+        name="related"
+        v-model="related.related"
+        @change="editLists('related')"
+      >
+        <option value="0" disabled>Выберете товар</option>
+        <option
+          v-for="item in related.relateds"
+          :value="item.id"
+          :key="item.id"
+        >
+          {{ item.name }}
+        </option>
+      </select>
+      <div class="price">
+        <label>
+          <span>Опт: </span>
+          <input
+            type="text"
+            name="opt"
+            placeholder="Опт"
+            v-model="related.opt"
+          />
+        </label>
+        <label>
+          <span>РРЦ: </span>
+          <input
+            type="text"
+            name="rrc"
+            placeholder="РРЦ"
+            v-model="related.rrc"
+          />
+        </label>
+      </div>
+      <button name="table" value="related" @click.prevent="submit($event)">
+        Сохранить
+      </button>
+    </form>
   </div>
 </template>
 <script>
@@ -317,6 +367,13 @@ export default {
         rrc: "",
         opt: "",
       },
+      related: {
+        provider: 0,
+        related: 0,
+        relateds: [],
+        rrc: "",
+        opt: "",
+      },
     };
   },
   methods: {
@@ -350,6 +407,11 @@ export default {
           this.doorstep.doorsteps = lists.doorsteps;
           this.doorstep.opt = lists.opt;
           this.doorstep.rrc = lists.rrc;
+          break;
+        }
+        case "related": {
+          this.related.opt = lists.opt;
+          this.related.rrc = lists.rrc;
           break;
         }
       }
@@ -411,6 +473,15 @@ export default {
           }
           return dataForm;
         }
+        case "related": {
+          if (this.related.related != 0) {
+            dataForm.append("related", this.related.related);
+          }
+          if (this.related.provider != 0) {
+            dataForm.append("provider", this.related.provider);
+          }
+          return dataForm;
+        }
       }
     },
     async getLists() {
@@ -428,6 +499,7 @@ export default {
       this.accessories.plinths = lists.plinth.plinths;
       this.doorstep.makers = lists.doorstep.makers;
       this.doorstep.doorsteps = lists.doorstep.doorsteps;
+      this.related.relateds = lists.related.relateds;
     },
     async submit(event) {
       let dataForm = new FormData(event.target.parentNode);
@@ -437,9 +509,6 @@ export default {
         method: "POST",
         body: dataForm,
       }).then((text) => text.json());
-      setTimeout(function () {
-        app.modal.active = false;
-      }, 5000);
     },
   },
   mounted() {

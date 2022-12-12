@@ -10,8 +10,11 @@
       <router-link :to="{ name: 'Pricing' }">Ценообразование</router-link>
     </div>
     <div class="block-link">
-      <router-link :to="{ name: 'Users' }">Полльзователи</router-link>
+      <router-link :to="{ name: 'Users' }">Пользователи</router-link>
     </div>
+    <!-- <div class="block-link">
+      <router-link :to="{ name: 'Accounting' }">Бухгалтерия</router-link>
+    </div> -->
   </div>
   <router-view class="admin_page"></router-view>
 </template>

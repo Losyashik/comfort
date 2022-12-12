@@ -12,6 +12,7 @@ async function presence(t) {
       let time = new Date().getTime();
       if (time - user.time > 20 * 60 * 1000) {
         localStorage.removeItem("user");
+        localStorage.removeItem("tabs");
         await fetch(t.$connect + "exit.php");
         t.$router.push("login");
       }
@@ -22,6 +23,7 @@ async function presence(t) {
     }
   }
 }
+
 export default {
   name: "App",
   data() {
@@ -30,6 +32,7 @@ export default {
       userActive: false,
     };
   },
+
   methods: {
     close() {
       this.modal.active = false;
@@ -47,6 +50,16 @@ export default {
   },
   created() {
     this.presence();
+  },
+  watch: {
+    modal() {
+      if (this.modal.active) {
+        let modal = this.modal;
+        setTimeout(function () {
+          modal.active = false;
+        }, 5000);
+      }
+    },
   },
 };
 </script>

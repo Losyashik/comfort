@@ -34,6 +34,7 @@
   </div>
 </template>
 <script>
+// import { mapActions } from 'vuex';
 export default {
   data() {
     return {
@@ -47,6 +48,7 @@ export default {
     };
   },
   methods: {
+    // ...mapActions(['autorisation']),
     watch() {
       let inp = document.querySelector("input[name = 'password']");
       switch (this.eye) {

@@ -1,0 +1,82 @@
+.admin_page {
+  width: 80%;
+  height: 100vh;
+}
+.sorting {
+  padding: 15px 5%;
+  width: 90%;
+  form {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    select {
+      min-width: 30%;
+    }
+    .date {
+      position: relative;
+      max-height: 5vh;
+      text-align: center;
+      min-width: 38%;
+    }
+    .range_date {
+      display: flex;
+      justify-content: space-between;
+      button{
+        border-radius: 20px;
+        border: 1px solid;
+        padding: 0 15px;
+      }
+      .inputs {
+        display: flex;
+        justify-content: center;
+        input {
+          display: block;
+          margin: 0;
+          height: 3vh;
+          padding: 0.5vh 10px;
+          border: 1px solid;
+          outline: none;
+          &:first-child {
+            border-radius: 10px 0 0 10px;
+            border-right: none;
+          }
+          &:last-child {
+            border-radius: 0 10px 10px 0;
+            border-left: none;
+          }
+        }
+        div {
+          border: {
+            top: 1px solid;
+            bottom: 1px solid;
+          }
+          height: 3vh;
+          padding: 0.5vh 0;
+        }
+      }
+    }
+
+    .calendar {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      a {
+        display: block;
+        cursor: pointer;
+      }
+      position: absolute;
+    }
+  }
+}
+
+table {
+  width: 90%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  tr,
+  td,
+  th {
+    border: 1px solid;
+  }
+}

@@ -1,15 +1,16 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
+import store from "./store";
 import ModalWindow from "./components/ModalWindow";
 
 const app = createApp(App);
+
 app.component("modal-window", ModalWindow);
 
 app.config.globalProperties.$images = "";
 app.config.globalProperties.$connect = "/backend/";
-app.config.globalProperties.$connect = "http://backend/backend/";
-app.config.globalProperties.$images = "http://backend/";
+// app.config.globalProperties.$images = "http://backend_vuex/";
 
 app.config.globalProperties.$acceptNumber = (number) => {
   var x = number
@@ -25,17 +26,31 @@ app.config.globalProperties.$acceptNumber = (number) => {
         (x[4] ? "-" + x[4] + (x[5] ? " " + x[5] : "") : "");
 };
 
-app.config.globalProperties.$getStringDate = function (dateString) {
-  if (dateString == "" || dateString == undefined) return "--.--.----";
+app.config.globalProperties.$getStringDate = (dateString) => {
+  if (!dateString) return "";
+  else {
+    var options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+    };
+    var seconds = Date.parse(dateString);
+    var date = new Date(seconds);
+    return date.toLocaleString("ru", options);
+  }
+};
+app.config.globalProperties.$getTime = (date, time) => {
+  if (!(time && date)) return "";
   var options = {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
   };
-  var seconds = Date.parse(dateString);
-  var date = new Date(seconds);
-  return date.toLocaleString("ru", options);
+  var seconds = Date.parse(date + "T" + time);
+
+  seconds = new Date(seconds);
+  return seconds.toLocaleString("ru", options);
 };
 
-app.use(router).mount("#app");
+app.use(store).use(router).mount("#app");
+
 document.body.lang = "ru";

@@ -7,8 +7,29 @@ $data_page = json_decode($request_body, true);
 if (isset($data_page['type'])) {
     include_once('./../../backend/librares/connect.php');
     switch ($data_page['type']) {
+        case "related": {
+                $data = [
+                    [
+                        "name" => "Название",
+                        "tag_name" => "name",
+                        "tag" => "input",
+                        "type" => "text"
+                    ],
+                    [
+                        "name" => "Ед. Изм.",
+                        "tag_name" => "ei",
+                        "tag" => "input",
+                        "type" => "text"
+                    ],
+                    [
+                        "tag" => "button",
+                        "tag_name" => $data_page['type']
+                    ]
+                ];
+                break;
+            }
         case "allowances": {
-                $queryData = getData("SELECT * FROM linoleum_allowances WHERE id_collection = " . $data_page['id'].' order by id desc')[0];
+                $queryData = $connect->getData("SELECT * FROM linoleum_allowances WHERE id_collection = " . $data_page['id'] . ' order by id desc')[0];
                 $data[] = [
                     "tag_name" => "collection",
                     "tag" => "input",
@@ -33,7 +54,7 @@ if (isset($data_page['type'])) {
                 break;
             }
         case "price": {
-                $dataWidth = getData("SELECT DISTINCT width, price FROM linoleum_width WHERE id_collection = " . $data_page['id']);
+                $dataWidth = $connect->getData("SELECT DISTINCT width, price FROM linoleum_width WHERE id_collection = " . $data_page['id']);
                 $data[] = [
                     "tag_name" => "collection",
                     "tag" => "input",
@@ -63,26 +84,21 @@ if (isset($data_page['type'])) {
                         "tag_name" => "id_color",
                         "tag" => "select",
                         "multiple" => false,
-                        "options" => getData("SELECT * FROM `doorstep_color`")
+                        "options" => $connect->getData("SELECT * FROM `doorstep_color`")
                     ],
                     [
                         "name" => "Размер",
                         "tag_name" => "id_size",
                         "tag" => "select",
                         "multiple" => false,
-                        "options" => getData("SELECT id, concat(`width`,' * ',`length`,' * ',`depth`) as name FROM `doorstep_size`")
+                        "options" => $connect->getData("SELECT id, concat(`width`,' * ',`length`,' * ',`depth`) as name FROM `doorstep_size`")
                     ],
                     [
                         "name" => "Производитель",
                         "tag_name" => "id_maker",
                         "tag" => "select",
                         "multiple" => false,
-                        "options" => getData("SELECT * FROM `doorstep_maker`")
-                    ],
-                    [
-                        "tag" => "input",
-                        "type" => "file",
-                        "multiple" => false
+                        "options" => $connect->getData("SELECT * FROM `doorstep_maker`")
                     ],
                     [
                         "tag" => "button",
@@ -125,14 +141,14 @@ if (isset($data_page['type'])) {
                         "tag_name" => "id_linoleum",
                         "tag" => "select",
                         "multiple" => false,
-                        "options" => getData("select linoleum.id, concat(collection.name,' ',linoleum.name)as name from linoleum, linoleum_collection as collection WHERE id_collection = collection.id")
+                        "options" => $connect->getData("select linoleum.id, concat(collection.name,' ',linoleum.name)as name from linoleum, linoleum_collection as collection WHERE id_collection = collection.id")
                     ],
                     [
                         "name" => "Плинтус",
                         "tag_name" => "id_plinth",
                         "tag" => "select",
                         "multiple" => false,
-                        "options" => getData("select plinth.id, concat(collection.name,' ',plinth.name)as name from plinth, plinth_collection as collection WHERE id_collection = collection.id;")
+                        "options" => $connect->getData("select plinth.id, concat(collection.name,' ',plinth.name)as name from plinth, plinth_collection as collection WHERE id_collection = collection.id;")
                     ],
                     [
                         "tag" => "button",
@@ -154,14 +170,14 @@ if (isset($data_page['type'])) {
                         "tag_name" => "id_maker",
                         "tag" => "select",
                         "multiple" => false,
-                        "options" => getData("select * from linoleum_maker")
+                        "options" => $connect->getData("select * from linoleum_maker")
                     ],
                     [
                         "name" => "Коллекция",
                         "tag_name" => "id_collection",
                         "tag" => "select",
                         "multiple" => false,
-                        "options" => getData("select id,name from linoleum_collection order by id desc")
+                        "options" => $connect->getData("select id,name from linoleum_collection order by id desc")
                     ],
                     [
                         "name" => "Ширины",
@@ -205,14 +221,14 @@ if (isset($data_page['type'])) {
                         "tag_name" => "id_maker",
                         "tag" => "select",
                         "multiple" => false,
-                        "options" => getData("select * from plinth_maker")
+                        "options" => $connect->getData("select * from plinth_maker")
                     ],
                     [
                         "name" => "Коллекция",
                         "tag_name" => "id_collection",
                         "tag" => "select",
                         "multiple" => false,
-                        "options" => getData("select id,name from plinth_collection")
+                        "options" => $connect->getData("select id,name from plinth_collection")
                     ],
                     [
                         "tag" => "input",
@@ -240,35 +256,35 @@ if (isset($data_page['type'])) {
                             "tag_name" => "id_maker",
                             "tag" => "select",
                             "multiple" => false,
-                            "options" => getData("select id,name from linoleum_maker")
+                            "options" => $connect->getData("select id,name from linoleum_maker")
                         ],
                         [
                             "name" => "Предназанчение",
                             "tag_name" => "id_destination",
                             "tag" => "select",
                             "multiple" => false,
-                            "options" => getData("select id,name from linoleum_destination")
+                            "options" => $connect->getData("select id,name from linoleum_destination")
                         ],
                         [
                             "name" => "Класс",
                             "tag_name" => "id_class",
                             "tag" => "select",
                             "multiple" => false,
-                            "options" => getData("select id,name from linoleum_class")
+                            "options" => $connect->getData("select id,name from linoleum_class")
                         ],
                         [
                             "name" => "Основа",
                             "tag_name" => "id_base",
                             "tag" => "select",
                             "multiple" => false,
-                            "options" => getData("select id,name from linoleum_base")
+                            "options" => $connect->getData("select id,name from linoleum_base")
                         ],
                         [
                             "name" => "Тип",
                             "tag_name" => "id_type",
                             "tag" => "select",
                             "multiple" => false,
-                            "options" => getData("select id,name from linoleum_type")
+                            "options" => $connect->getData("select id,name from linoleum_type")
                         ],
                         [
                             "name" => "Толщина общая",
@@ -303,7 +319,7 @@ if (isset($data_page['type'])) {
                             "tag_name" => "id_maker",
                             "tag" => "select",
                             "multiple" => false,
-                            "options" => getData("select id,name from plinth_maker")
+                            "options" => $connect->getData("select id,name from plinth_maker")
                         ],
                         [
                             "name" => "Ширина",
@@ -344,7 +360,7 @@ if (isset($data_page['type'])) {
                         "tag_name" => "id_plinth",
                         "tag" => "select",
                         "multiple" => false,
-                        "options" => getData("select plinth.id, concat(collection.name,' ',plinth.name)as name from plinth, plinth_collection as collection WHERE id_collection = collection.id;")
+                        "options" => $connect->getData("select plinth.id, concat(collection.name,' ',plinth.name)as name from plinth, plinth_collection as collection WHERE id_collection = collection.id;")
                     ],
                     [
                         "name" => "Название",

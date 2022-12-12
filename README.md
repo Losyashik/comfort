@@ -1,4 +1,4 @@
-# comfort
+# comfort_vuex
 
 ## Project setup
 ```

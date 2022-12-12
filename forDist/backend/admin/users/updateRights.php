@@ -11,18 +11,18 @@ if (isset($_POST['user'])) {
         $sql = "INSERT INTO rights_users (id_user, id_right) VALUES ";
         foreach ($_POST['rights'] as $item) {
             $query .= $item . ",";
-            if (query("SELECT * FROM rights_users WHERE id_user =" . $_POST['user'] . " AND id_right = $item", "result")->num_rows == 0) {
+            if ($connect->query("SELECT * FROM rights_users WHERE id_user =" . $_POST['user'] . " AND id_right = $item", "result")->num_rows == 0) {
                 $sql .= "(" . $_POST['user'] . ",$item),";
             }
         }
         if ($sql != "INSERT INTO rights_users (id_user, id_right) VALUES ") {
             $sql[strlen($sql) - 1] = ';';
-            query($sql);
+            $connect->query($sql);
         }
         $query[strlen($query) - 1] = ')';
-        query($query);
+        $connect->query($query);
     } else {
-        query("DELETE FROM rights_users WHERE id_user = " . $_POST['user']);
+        $connect->query("DELETE FROM rights_users WHERE id_user = " . $_POST['user']);
     }
     $data['text'] = "Привелегии обновлены";
     $data['error'] = false;

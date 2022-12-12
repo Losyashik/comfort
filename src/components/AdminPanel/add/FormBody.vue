@@ -243,7 +243,8 @@ export default {
       let formData = new FormData(but.parentNode.parentNode);
       formData.append("table_name", but.name);
       but.parentNode.parentNode.reset();
-      if (this.data.product == "" && this.data.type != "recommended") {
+      console.log(this.form);
+      if (this.form.filter((tag) => tag.type == "file").length) {
         this.$refs.inputFile[0].images = [];
       }
       let app = this.$parent.$parent.$parent.$parent.$parent.$parent;
@@ -251,9 +252,7 @@ export default {
         method: "POST",
         body: formData,
       }).then((response) => response.json());
-      setTimeout(function () {
-        app.modal.active = false;
-      }, 5000);
+
       this.getDataList();
     },
     async deleteProducts(but) {
@@ -264,9 +263,6 @@ export default {
         method: "POST",
         body: formData,
       }).then((response) => response.json());
-      setTimeout(function () {
-        app.modal.active = false;
-      }, 5000);
       this.getDataList();
     },
     getDtataForEdit(but) {

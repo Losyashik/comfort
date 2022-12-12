@@ -1,32 +1,5 @@
 <template>
   <main class="page">
-    <div class="history" v-show="historyShow">
-      <div class="history__row header">
-        <div class="history__status_name">Статус</div>
-        <div class="history__date">Даты</div>
-        <div
-          class="history__close"
-          @click="
-            historyShow = false;
-            history = [];
-          "
-        >
-          <img src="./../../assets/images/interface/close.png" alt="" />
-        </div>
-      </div>
-      <template v-if="history.length">
-        <div v-for="item in history" :key="item.status" class="history__row">
-          <div class="history__status_name">{{ item.name }}</div>
-          <div class="history__date">
-            c {{ getStringDate(item.start_date) }} по
-            {{ getStringDate(item.stop_date) }}
-          </div>
-        </div>
-      </template>
-      <div v-else class="history__row">
-        <div class="history__none">История отсутствует</div>
-      </div>
-    </div>
     <div class="start_form">
       <div class="data_client">
         <div class="block">
@@ -54,10 +27,42 @@
           </div>
         </div>
         <div class="block">
+          <span>Номер заказа 1С</span>
+          <div id="name">
+            <input
+              tabindex="3"
+              autocomplete="false"
+              v-model="data.no_order_1c"
+              placeholder="Номер заказа 1С"
+              type="text"
+            />
+          </div>
+        </div>
+        <div class="block">
+          <span>Способ оплаты</span>
+          <div id="name" class="select_block">
+            <select
+              v-if="GET_PAYMENTS.length"
+              v-model="data.payment_method"
+              tabindex="4"
+              type="text"
+            >
+              <option value="0">Выберете способ оплаты</option>
+              <option
+                v-for="elem in GET_PAYMENTS"
+                :key="elem.id"
+                :value="elem.id"
+              >
+                {{ elem.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="block">
           <span>Номер телефона</span>
           <div id="number">
             <input
-              tabindex="3"
+              tabindex="5"
               autocomplete="false"
               v-model="data.number"
               placeholder="Введите номер телефона"
@@ -69,8 +74,12 @@
         <div class="block">
           <span>Тип связи</span>
           <div class="select_block">
-            <select v-if="toc.length" tabindex="4" v-model="data.toc">
-              <option v-for="elem in toc" :key="elem.id" :value="elem.name">
+            <select
+              v-if="GET_TOC.length"
+              tabindex="6"
+              v-model="data.connection"
+            >
+              <option v-for="elem in GET_TOC" :key="elem.id" :value="elem.id">
                 {{ elem.name }}
               </option>
             </select>
@@ -81,8 +90,17 @@
           <div class="addres_input">
             <label>
               <div>Город</div>
-              <select tabindex="5" v-model="data.city" name="" id="city">
-                <option v-for="city in cites" :key="city.id" :value="city.name">
+              <select
+                v-if="GET_CITES.length"
+                tabindex="7"
+                v-model="data.city"
+                id="city"
+              >
+                <option
+                  v-for="city in GET_CITES"
+                  :key="city.id"
+                  :value="city.id"
+                >
                   {{ city.name }}
                 </option>
               </select>
@@ -90,7 +108,7 @@
             <label>
               <div>Улица</div>
               <input
-                tabindex="6"
+                tabindex="8"
                 autocomplete="false"
                 v-model="data.street"
                 type="text"
@@ -99,7 +117,7 @@
             <label>
               <div>Дом</div>
               <input
-                tabindex="6"
+                tabindex="9"
                 autocomplete="false"
                 v-model="data.house"
                 type="text"
@@ -108,7 +126,7 @@
             <label>
               <div>Корпус</div>
               <input
-                tabindex="6"
+                tabindex="10"
                 autocomplete="false"
                 v-model="data.corpus"
                 type="text"
@@ -117,7 +135,7 @@
             <label>
               <div>Подъезд</div>
               <input
-                tabindex="6"
+                tabindex="11"
                 autocomplete="false"
                 v-model="data.entrance"
                 type="text"
@@ -126,7 +144,7 @@
             <label>
               <div>Квартира</div>
               <input
-                tabindex="6"
+                tabindex="12"
                 autocomplete="false"
                 v-model="data.flat"
                 type="text"
@@ -137,10 +155,14 @@
         <div class="block">
           <span>Статус заказа</span>
           <div class="select_block">
-            <select v-if="status.length" tabindex="7" v-model="data.status">
+            <select
+              v-if="GET_STATUSES.length"
+              tabindex="13"
+              v-model="data.status"
+            >
               <option
-                v-for="status in status"
-                :value="status.name"
+                v-for="status in GET_STATUSES"
+                :value="status.id"
                 :key="status.id"
               >
                 {{ status.name }}
@@ -149,48 +171,71 @@
           </div>
         </div>
         <div
-          v-if="$parent.user.rights.includes('11') && data.status == 'Замер'"
+          v-if="$parent.user.rights.includes('11') && data.status == 2"
           class="block"
         >
           <span>Дата замера</span>
           <div>
+            Дата:
             <input
-              tabindex="7"
+              tabindex="14"
               autocomplete="false"
               @dblclick="$event.target.classList.toggle('calendar')"
               v-model="data.measuring_date"
               placeholder="Выберете дату"
               type="date"
-              class="calendar"
+              class="datetime calendar"
+            />
+            Время:
+            <input
+              tabindex="15"
+              autocomplete="false"
+              @dblclick="$event.target.classList.toggle('calendar')"
+              v-model="data.measuring_time"
+              placeholder="Выберете время"
+              type="time"
+              class="datetime"
             />
           </div>
         </div>
         <div
           v-else-if="
             $parent.user.rights.includes('12') &&
-            (data.status == 'Доставка' || data.status == 'Завершённый')
+            (data.status == 5 || data.status == 6)
           "
           class="block"
         >
           <span>Дата доставки</span>
           <div>
+            Дата:
             <input
-              tabindex="7"
+              tabindex="14"
               autocomplete="false"
               @dblclick="$event.target.classList.toggle('calendar')"
               v-model="data.delivery_date"
               placeholder="Выберете дату"
               :disabled="data.status == 'Завершённый'"
               type="date"
-              class="calendar"
+              class="datetime calendar"
+            />
+            Время:
+            <input
+              tabindex="15"
+              autocomplete="false"
+              @dblclick="$event.target.classList.toggle('calendar')"
+              v-model="data.delivery_time"
+              placeholder="Выберете время"
+              :disabled="data.status == 'Завершённый'"
+              type="time"
+              class="datetime"
             />
           </div>
         </div>
         <div v-else class="block">
-          <span>Дата звонка</span>
+          <span>Дата повторной связи</span>
           <div>
             <input
-              tabindex="7"
+              tabindex="14"
               autocomplete="false"
               @dblclick="$event.target.classList.toggle('calendar')"
               v-model="data.expectation"
@@ -204,16 +249,18 @@
       <div class="note_block">
         <div class="note" id="note">
           <textarea
-            tabindex="8"
+            cols="30"
+            tabindex="17"
+            wrap="soft"
             autocomplete="false"
             v-model="data.note"
             placeholder="Введите заметку"
           ></textarea>
         </div>
       </div>
+
       <div class="buttons">
-        <button class="button" @click="openHistory()">История заявки</button>
-        <button class="button" @click="addApplication" v-if="data.no == 0">
+        <button class="button" @click="addApplication" v-if="data.id == 'new'">
           Добавить заявку
         </button>
         <button class="button" @click="updateApplication" v-else>
@@ -281,7 +328,7 @@
             </td>
             <td>
               <input
-                tabindex="9"
+                tabindex="17"
                 type="text"
                 @focus="$event.target.select()"
                 v-model="product.len"
@@ -303,7 +350,7 @@
             <input
               @keydown.prevent.enter="nextInput($event)"
               class="price"
-              tabindex="10"
+              tabindex="18"
               type="text"
               @focus="$event.target.select()"
               v-model="product.price.fact"
@@ -340,7 +387,7 @@
             <td>
               <input
                 type="text"
-                tabindex="11"
+                tabindex="19"
                 @focus="$event.target.select()"
                 @keydown.prevent.enter="nextInput($event)"
                 v-model="product.purchase_price"
@@ -374,7 +421,7 @@
                 @keydown.prevent.enter="nextInput($event)"
                 @focus="$event.target.select()"
                 type="text"
-                tabindex="9"
+                tabindex="17"
                 v-model="product.col_vo"
               />
             </td>
@@ -386,7 +433,7 @@
             <input
               @keydown.prevent.enter="nextInput($event)"
               @focus="$event.target.select()"
-              tabindex="10"
+              tabindex="18"
               type="text"
               v-model="product.final_price"
             />
@@ -420,7 +467,7 @@
             <td>
               <input
                 type="text"
-                tabindex="11"
+                tabindex="19"
                 @focus="$event.target.select()"
                 @keydown.prevent.enter="nextInput($event)"
                 v-model="product.purchase_price"
@@ -453,7 +500,7 @@
               <input
                 @keydown.prevent.enter="nextInput($event)"
                 @focus="$event.target.select()"
-                tabindex="9"
+                tabindex="17"
                 type="text"
                 v-model="product.col_vo"
               />
@@ -466,7 +513,7 @@
             <input
               @keydown.prevent.enter="nextInput($event)"
               @focus="$event.target.select()"
-              tabindex="10"
+              tabindex="18"
               type="text"
               v-model="product.final_price"
             />
@@ -496,7 +543,7 @@
             <td>
               <input
                 type="text"
-                tabindex="11"
+                tabindex="19"
                 @focus="$event.target.select()"
                 @keydown.prevent.enter="nextInput($event)"
                 v-model="product.purchase_price"
@@ -529,7 +576,7 @@
                 @keydown.prevent.enter="nextInput($event)"
                 @focus="$event.target.select()"
                 type="text"
-                tabindex="9"
+                tabindex="17"
                 v-model="product.col_vo"
               />
             </td>
@@ -540,7 +587,7 @@
             <input
               @keydown.prevent.enter="nextInput($event)"
               @focus="$event.target.select()"
-              tabindex="10"
+              tabindex="18"
               type="text"
               v-model="product.final_price"
             />
@@ -574,7 +621,85 @@
             <td>
               <input
                 type="text"
-                tabindex="11"
+                tabindex="19"
+                @focus="$event.target.select()"
+                @keydown.prevent.enter="nextInput($event)"
+                v-model="product.purchase_price"
+              />
+            </td>
+            <td>
+              {{
+                (product.purchase_price * product.col_vo)
+                  .toFixed(2)
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+              }}
+            </td>
+          </template>
+        </tr>
+      </template>
+      <template v-if="data.productList.related.length">
+        <tr v-for="product in data.productList.related" :key="product.key">
+          <td class="key" @click="removeProduct(product.key)">
+            <span>{{ product.key }}</span>
+            <img src="./../../assets/images/interface/close.png" alt="" />
+          </td>
+          <template v-if="statusInclud()">
+            <td colspan="2" class="name">{{ product.product }}</td>
+            <td>{{ product.col_vo }} <span v-html="product.ei"></span></td>
+          </template>
+          <template v-else>
+            <td colspan="3" class="name">{{ product.product }}</td>
+            <td>
+              <input
+                @keydown.prevent.enter="nextInput($event)"
+                @focus="$event.target.select()"
+                type="text"
+                tabindex="17"
+                v-model="product.col_vo"
+              />
+            </td>
+            <td v-html="product.ei"></td>
+            <td>{{ product.price }}</td>
+          </template>
+          <td>
+            <input
+              @keydown.prevent.enter="nextInput($event)"
+              @focus="$event.target.select()"
+              tabindex="18"
+              type="text"
+              v-model="product.final_price"
+            />
+          </td>
+          <td>
+            {{
+              (product.final_price * product.col_vo)
+                .toFixed(2)
+                .replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+            }}
+          </td>
+          <template v-if="statusInclud()">
+            <td>
+              <select
+                @change="
+                  product.purchase_price = product.purchase_price_list.filter(
+                    (item) => item.id_provider == $event.target.value
+                  )[0].purchase_price
+                "
+                v-model="product.provider"
+              >
+                <option
+                  v-for="item in product.providers"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.name }}
+                </option>
+              </select>
+            </td>
+            <td>
+              <input
+                type="text"
+                tabindex="19"
                 @focus="$event.target.select()"
                 @keydown.prevent.enter="nextInput($event)"
                 v-model="product.purchase_price"
@@ -595,14 +720,25 @@
         <td class="name" colspan="8">
           <div
             class="open_list open_modal_window"
-            data-name-window="product_list"
             @click="
               $parent.prevCatalog = true;
               $parent.add = true;
+              $parent.catalogMode = true;
             "
           >
             Добавить товар
           </div>
+
+          <!-- <div
+            class="open_list open_modal_window"
+            @click="
+              $parent.prevCatalog = true;
+              $parent.add = true;
+              $parent.catalogMode = false;
+            "
+          >
+            Добавить товар со склада
+          </div> -->
         </td>
       </tr>
       <tr class="product">
@@ -645,28 +781,32 @@
         </template>
       </tr>
     </table>
+    <main-load
+      v-if="load"
+      style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.2);
+      "
+    ></main-load>
   </main>
 </template>
 <script>
-async function get(list, path) {
-  const f = await fetch(path);
-  const data = await f.json();
-  data.forEach((el) => {
-    list.push(el);
-  });
-}
+import { mapGetters } from "vuex";
+import MainLoad from "../MainLoad.vue";
+import api from "../../api";
+
 export default {
   data() {
     return {
-      historyShow: false,
-      history: [],
       data: {},
-      cites: [],
-      toc: [],
-      status: [],
-      seved: true,
       watch: false,
+      load: false,
     };
+  },
+  components: {
+    MainLoad,
   },
   methods: {
     getStringDate(dateString) {
@@ -682,59 +822,48 @@ export default {
       var date = new Date(seconds);
       return date.toLocaleString("ru", options);
     },
-    async openHistory() {
-      this.history = await fetch(
-        this.$connect + "application/history.php?id=" + this.data.no
-      ).then((resp) => resp.json());
-      this.historyShow = true;
-    },
     statusInclud() {
       switch (this.data.status) {
-        case "Уточнение наличия":
+        case "4":
           if (this.$parent.user.rights.includes("6")) return true;
           else return false;
-        case "Подготовка заказа":
+        case "5":
           if (this.$parent.user.rights.includes("7")) return true;
           else return false;
-        case "Доставка":
+        case "6":
           if (this.$parent.user.rights.includes("8")) return true;
           else return false;
-        case "Завершённый":
+        case "7":
           if (this.$parent.user.rights.includes("9")) return true;
           else return false;
       }
     },
-    getLists() {
-      get(this.cites, this.$connect + "application/getLists.php?cites=0");
-      get(this.status, this.$connect + "application/getLists.php?status=0");
-      get(this.toc, this.$connect + "application/getLists.php?toc=0");
-    },
     nextInput(event) {
       let inputs = [];
-      if (event.target.getAttribute("tabindex") == 9) {
-        inputs = document.querySelectorAll('input[tabindex="9"]');
+      if (event.target.getAttribute("tabindex") == 17) {
+        inputs = document.querySelectorAll('input[tabindex="17"]');
         for (let i = 0; i < inputs.length; i++) {
           if (inputs[i] == event.target && i < inputs.length - 1) {
             inputs[i + 1].focus();
             return;
           } else if (i == inputs.length - 1) {
-            document.querySelectorAll('input[tabindex="10"]')[0].focus();
+            document.querySelectorAll('input[tabindex="18"]')[0].focus();
             return;
           }
         }
-      } else if (event.target.getAttribute("tabindex") == 10) {
-        inputs = document.querySelectorAll('input[tabindex="10"]');
+      } else if (event.target.getAttribute("tabindex") == 18) {
+        inputs = document.querySelectorAll('input[tabindex="18"]');
         for (let i = 0; i < inputs.length; i++) {
           if (inputs[i] == event.target && i != inputs.length - 1) {
             inputs[i + 1].focus();
             return;
           } else if (i == inputs.length - 1) {
-            document.querySelectorAll('input[tabindex="11"]')[0].focus();
+            document.querySelectorAll('input[tabindex="19"]')[0].focus();
             return;
           }
         }
-      } else if (event.target.getAttribute("tabindex") == 11) {
-        inputs = document.querySelectorAll('input[tabindex="11"]');
+      } else if (event.target.getAttribute("tabindex") == 19) {
+        inputs = document.querySelectorAll('input[tabindex="19"]');
         for (let i = 0; i < inputs.length; i++) {
           if (inputs[i] == event.target && i != inputs.length - 1) {
             inputs[i + 1].focus();
@@ -766,12 +895,9 @@ export default {
     },
     editSelectedRRC() {
       this.watch = false;
-      let sum = 0;
+      let sum = this.data.square;
       let rrcKey = "";
       this.data.seved = false;
-      this.data.productList.linoleum.forEach((el) => {
-        sum += el.width.select * el.len;
-      });
       if (sum > 0 && sum <= 10) rrcKey = "p0_10";
       else if (sum <= 15) rrcKey = "p11_15";
       else if (sum <= 20) rrcKey = "p16_20";
@@ -782,7 +908,6 @@ export default {
       this.data.productList.linoleum.forEach((el) => {
         el.price.rrc.selected = el.price.rrc.all[rrcKey];
       });
-      this.sum(this.data);
     },
     sum(data = this.data) {
       let sum = 0;
@@ -790,19 +915,28 @@ export default {
       let square = 0;
       let purchase = 0;
       data.productList.linoleum.forEach((el) => {
+        el.price.fact = String(el.price.fact).replace(/,/, ".");
+        el.len = String(el.len).replace(/,/, ".");
+        el.purchase_price = String(el.purchase_price).replace(/,/, ".");
+
         if (
           el.price.fact < el.price.rrc.selected - el.price.rrc.selected * 0.1 &&
           !this.$parent.user.rights.includes("10")
         ) {
           el.price.fact = el.price.rrc.selected - el.price.rrc.selected * 0.1;
         }
+
         sum += el.width.select * el.len * el.price.fact;
         weight += el.width.select * el.len * el.weight;
         square += el.width.select * el.len;
         purchase += el.width.select * el.len * el.purchase_price;
       });
+      data.square = square.toFixed(2);
+      this.editSelectedRRC();
       data.productList.plinth.forEach((el) => {
         el.price = el.price ? el.price : 0;
+        el.final_price = String(el.final_price).replace(/,/, ".");
+        el.purchase_price = String(el.purchase_price).replace(/,/, ".");
         if (
           el.final_price < el.price - el.price.price * 0.1 &&
           !this.$parent.user.rights.includes("10")
@@ -815,6 +949,8 @@ export default {
       });
       data.productList.accessories.forEach((el) => {
         el.price = el.price ? el.price : 0;
+        el.final_price = String(el.final_price).replace(/,/, ".");
+        el.purchase_price = String(el.purchase_price).replace(/,/, ".");
         if (
           el.final_price < el.price - el.price.price * 0.1 &&
           !this.$parent.user.rights.includes("10")
@@ -826,6 +962,8 @@ export default {
       });
       data.productList.doorstep.forEach((el) => {
         el.price = el.price ? el.price : 0;
+        el.final_price = String(el.final_price).replace(/,/, ".");
+        el.purchase_price = String(el.purchase_price).replace(/,/, ".");
         if (
           el.final_price < el.price - el.price.price * 0.1 &&
           !this.$parent.user.rights.includes("10")
@@ -837,87 +975,104 @@ export default {
       });
       data.sum = sum.toFixed(2);
       data.weight = weight.toFixed(2);
-      data.square = square.toFixed(2);
       data.purchase = purchase.toFixed(2);
       this.watch = true;
     },
     async addApplication() {
-      if (this.data.toc == "") {
+      if (!this.data.connection) {
         alert("Выберете тип связи");
         return false;
-      } else if (this.data.nick == "") {
+      } else if (!this.data.nick) {
         alert("Введите ник");
         return false;
-      } else if (this.data.status == "") {
+      } else if (!this.data.status) {
         alert("Выберете статус заказа");
         return false;
-      }
-      this.watch = false;
-      this.data.seved = true;
-      this.data.add = true;
-      this.data.number = this.data.number.replace(/[\s()-]/g, "");
-      const text = await fetch(
-        this.$connect + "application/updateApplication.php",
-        {
-          method: "POST",
-          body: JSON.stringify(this.data),
-        }
-      ).then((resp) => resp.json());
-      let app = this.$parent.$parent.$parent;
-      if (text.active) {
-        app.modal = text;
-      } else {
-        this.data = text.dataPage;
-        app.modal = text.modal;
-        this.$parent.tabs = this.$parent.tabs.filter((tab) => tab.no != "new");
-        this.$parent.addTab(this.data.no, this.data);
-        this.$parent.updateMain(this.$parent.sortMainData);
+      } else if (!this.data.city) {
+        alert("Выберете город");
+        return false;
       }
 
-      setTimeout(function () {
-        app.modal.active = false;
-      }, 5000);
+      this.load = true;
+      this.watch = false;
+      this.data.add = true;
+      this.data.number = this.data.number.replace(/[\s()-]/g, "");
+
+      const text = await api.post(
+        "application/updateApplication.php",
+        this.data
+      );
+
+      if (text.status == 200) {
+        this.data.seved = true;
+        var tab = this.$parent.tabs.filter((tab) => tab.id == "new")[0];
+        tab.id = text.data.dataPage.id;
+        tab.data = text.data.dataPage;
+        this.$parent.selectTab(tab);
+      } else {
+        console.error(text.data.text);
+      }
+      this.load = false;
       this.watch = true;
     },
     async updateApplication() {
-      if (this.data.toc == "") {
+      if (this.data.conected) {
         alert("Выберете тип связи");
         return false;
-      } else if (this.data.nick == "") {
+      } else if (!this.data.nick) {
         alert("Введите ник");
         return false;
-      } else if (this.data.status == "") {
+      } else if (!this.data.status) {
         alert("Выберете статус заказа");
         return false;
+      } else if (!this.data.city) {
+        alert("Выберете город");
+        return false;
       }
+      this.load = true;
       this.watch = false;
       this.data.update = true;
       this.data.seved = true;
       this.data.number = this.data.number.replace(/[\s()-]/g, "");
-      const text = await fetch(
-        this.$connect + "application/updateApplication.php",
-        {
-          method: "POST",
-          body: JSON.stringify(this.data),
-        }
-      ).then((resp) => resp.json());
-      this.data = text.dataPage;
-      let app = this.$parent.$parent.$parent;
-      app.modal = text.modal;
-      setTimeout(function () {
-        app.modal.active = false;
-      }, 5000);
-      this.$parent.updateMain(this.$parent.sortMainData);
-      this.watch = true;
+
+      const text = await api.post(
+        "application/updateApplication.php",
+        this.data
+      );
+      if (text.status == 200) {
+        this.data = text.data.dataPage;
+        this.data.number = this.$acceptNumber(this.data.number);
+
+        this.watch = true;
+        this.load = false;
+      } else {
+        console.error(text.data.text);
+      }
     },
   },
-  async created() {
-    this.getLists();
+  computed: {
+    ...mapGetters([
+      "GET_CITES",
+      "GET_STATUSES",
+      "GET_TOC",
+      "GET_PAYMENTS",
+      "GET_MAIN_LIST",
+    ]),
+  },
+  created() {
     this.data = this.dataPage;
-    this.acceptNumber;
   },
   mounted() {
     this.watch = true;
+
+    document.addEventListener("keydown", (e) => {
+      if (this.$route.name != "App") return;
+      if (e.ctrlKey && e.key == "s") {
+        e.preventDefault();
+        if (this.data.no == 0) this.addApplication();
+        else this.updateApplication();
+      }
+    });
   },
   watch: {
     data: {
@@ -925,7 +1080,7 @@ export default {
       handler(newVal, oldVal) {
         if (this.watch) {
           if (oldVal != {}) {
-            this.editSelectedRRC();
+            this.sum();
           }
         }
       },

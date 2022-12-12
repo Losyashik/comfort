@@ -110,9 +110,6 @@ export default {
         method: "POST",
         body: formData,
       }).then((response) => response.json());
-      setTimeout(function () {
-        app.modal.active = false;
-      }, 5000);
     },
     async getList(event) {
       let data;

@@ -237,6 +237,18 @@
               >
             </div>
           </div>
+          <div class="block">
+            <h4>Соп. Товары</h4>
+            <div class="button">
+              <router-link
+                :to="{
+                  name: 'Form',
+                  params: { product: 'related', type: 'related' },
+                }"
+                >Соп. Товары</router-link
+              >
+            </div>
+          </div>
         </div>
       </div>
     </div>

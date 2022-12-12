@@ -99,9 +99,6 @@ export default {
         method: "POST",
         body: data,
       }).then((response) => response.json());
-      setTimeout(function () {
-        app.modal.active = false;
-      }, 5000);
     },
   },
   created() {

@@ -5,6 +5,7 @@
         <option value="nick">Поиск по нику</option>
         <option value="number">Поиск по номеру</option>
         <option value="street">Поиск по улице</option>
+        <option value="no_order_1c">Поиск по номеру 1С</option>
       </select>
       <input
         type="search"
@@ -35,6 +36,8 @@
   </div>
 </template>
 <script>
+import { mapMutations } from "vuex";
+
 async function post(list, path, data) {
   const f = await fetch(path, {
     method: "POST",
@@ -55,6 +58,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["sortingMain"]),
     openList(creteria) {
       if (creteria.openList) {
         creteria.openList = false;
@@ -71,6 +75,9 @@ export default {
     getFormData() {
       let checkBoxList = document.querySelectorAll("input[type=checkbox].main");
       this.sortData = {};
+
+      document.querySelector("#main").scrollTop = 0;
+      this.$parent.count = 30;
 
       checkBoxList.forEach((el) => {
         if (el.checked) {
@@ -98,15 +105,14 @@ export default {
       if (!this.sortData.opiration) {
         this.sortData = {};
       }
-
-      this.$emit("sorting", this.sortData);
+      console.log(this.sortData);
+      this.sortingMain(this.sortData);
     },
   },
 
   created: function () {
     this.upodateSortList();
   },
-  emits: ["sorting"],
 };
 </script>
 <style scoped lang="scss" src="./../../assets/styles/sort.scss"></style>

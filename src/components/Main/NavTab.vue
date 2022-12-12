@@ -1,7 +1,7 @@
 <template>
   <div>
     <span class="text">
-      <template v-if="data.no != 'new'">Заявка №{{ data.no }}</template
+      <template v-if="data.id != 'new'">Заявка №{{ data.id }}</template
       ><template v-else>Новая заявка</template></span
     ><span class="close" @click.stop="$emit('close')"
       ><img src="./../../assets/images/interface/close.png" alt=""

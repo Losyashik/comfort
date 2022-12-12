@@ -1,19 +1,21 @@
 <template>
   <div
-    v-if="obj"
     @click="$emit('close')"
     class="modal"
-    :class="{ active: obj.active, error: obj.error }"
+    :class="{ active: modal.active, error: modal.error }"
   >
     <div class="text">
-      {{ obj.text }}
+      {{ modal.text }}
     </div>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  emits: ["close"],
-  props: { obj: Object },
+  computed: {
+    ...mapGetters({ modal: "GET_MODAL" }),
+  },
 };
 </script>
 <style scoped>

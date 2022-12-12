@@ -35,7 +35,7 @@ if (isset($_SESSION['user'])) {
             "openList" => true,
             'value' => "status",
             "name" => "Статус",
-            "list" => getData($query),
+            "list" => $connect->getData($query),
         ];
     if (in_array(11, $_SESSION['user']['rights'])) {
         if (in_array(12, $_SESSION['user']['rights'])) {
@@ -45,9 +45,9 @@ if (isset($_SESSION['user'])) {
                 "name" => "Назначено?",
                 "list" => [
                     ['id' => 0, 'name' => "Назначеные замеры"],
-                    ['id' => 1, 'name' => "Неназначеные замеры"],
+                    ['id' => 1, 'name' => "Не назначеные замеры"],
                     ['id' => 2, 'name' => "Назначеные доставки"],
-                    ['id' => 3, 'name' => "Неназначеные доставки"],
+                    ['id' => 3, 'name' => "Не назначеные доставки"],
                 ],
             ];
         } else {
@@ -57,7 +57,7 @@ if (isset($_SESSION['user'])) {
                 "name" => "Назначено?",
                 "list" => [
                     ['id' => 0, 'name' => "Назначеные замеры"],
-                    ['id' => 1, 'name' => "Неназначеные замеры"],
+                    ['id' => 1, 'name' => "Не назначеные замеры"],
                 ],
             ];
         }
@@ -68,7 +68,7 @@ if (isset($_SESSION['user'])) {
             "name" => "Назначено?",
             "list" => [
                 ['id' => 2, 'name' => "Назначеные доставки"],
-                ['id' => 3, 'name' => "Неназначеные доставки"],
+                ['id' => 3, 'name' => "Не назначеные доставки"],
             ],
         ];
     }
@@ -79,7 +79,7 @@ if (isset($_SESSION['user'])) {
             "openList" => true,
             'value' => "status",
             "name" => "Статус",
-            "list" => getData($query),
+            "list" => $connect->getData($query),
         ];
     $data[] = [
         "openList" => false,
@@ -87,9 +87,9 @@ if (isset($_SESSION['user'])) {
         "name" => "Назначено?",
         "list" => [
             ['id' => 0, 'name' => "Назначеные замеры"],
-            ['id' => 1, 'name' => "Неназначеные замеры"],
+            ['id' => 1, 'name' => "Не назначеные замеры"],
             ['id' => 2, 'name' => "Назначеные доставки"],
-            ['id' => 3, 'name' => "Неназначеные доставки"],
+            ['id' => 3, 'name' => "Не назначеные доставки"],
         ],
     ];
 }
@@ -98,13 +98,13 @@ $data[] = [
     "openList" => false,
     'value' => "city",
     "name" => "Город",
-    "list" => getData("SELECT id,name FROM order_cites"),
+    "list" => $connect->getData("SELECT id,name FROM order_cites"),
 ];
 $data[] = [
     "openList" => false,
     'value' => "connection",
     "name" => "Тип связи",
-    "list" => getData("SELECT id,name FROM order_connection"),
+    "list" => $connect->getData("SELECT id,name FROM order_connection"),
 ];
 
 

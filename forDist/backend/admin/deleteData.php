@@ -7,19 +7,19 @@ switch ($_POST['table_name']) {
     case "linoleum": {
             foreach ($_POST['item'] as $item) {
                 $query = "DELETE FROM `linoleum_width` WHERE id_linoleum = $item;";
-                query($query);
-                $data = getData("SELECT id, src FROM linoleum_images WHERE id_linoleum = $item");
+                $connect->query($query);
+                $data = $connect->getData("SELECT id, src FROM linoleum_images WHERE id_linoleum = $item");
                 foreach ($data as $elem) {
                     if (unlink("../." . $elem['src'])) {
                         $query = "DELETE FROM `linoleum_images` WHERE id = " . $elem['id'] . ";";
-                        query($query);
+                        $connect->query($query);
                     } else {
                         $query = "DELETE FROM `linoleum_images` WHERE id = " . $elem['id'] . ";";
-                        query($query);
+                        $connect->query($query);
                     }
                 }
                 $query = "DELETE FROM `" . $_POST['table_name'] . "` WHERE id = $item;";
-                query($query);
+                $connect->query($query);
             }
             $data['text'] = "Удалено";
             $data['error'] = false;
@@ -29,13 +29,13 @@ switch ($_POST['table_name']) {
         }
     case "doorstep": {
             foreach ($_POST['item'] as $item) {
-                $query = getData("SELECT src FROM doorstep WHERE id = $item")[0]['src'];
+                $query = $connect->getData("SELECT src FROM doorstep WHERE id = $item")[0]['src'];
                 if (unlink("../." . $query)) {
                     $query = "DELETE FROM `" . $_POST['table_name'] . "` WHERE id = $item;";
                 }
 
 
-                query($query);
+                $connect->query($query);
             }
             $data['text'] = "Удалено";
             $data['error'] = false;
@@ -45,11 +45,11 @@ switch ($_POST['table_name']) {
         }
     case "plinth": {
             foreach ($_POST['item'] as $item) {
-                $query = getData("SELECT src FROM plinth WHERE id = $item")[0]['src'];
+                $query = $connect->getData("SELECT src FROM plinth WHERE id = $item")[0]['src'];
                 if (unlink("../." . $query)) {
                     $query = "DELETE FROM `" . $_POST['table_name'] . "` WHERE id = $item;";
                 }
-                query($query);
+                $connect->query($query);
             }
             $data['text'] = "Удалено";
             $data['error'] = false;
@@ -60,7 +60,7 @@ switch ($_POST['table_name']) {
     case "recommended": {
             foreach ($_POST['item'] as $item) {
                 $query = "DELETE FROM `" . $_POST['table_name'] . "` WHERE id_linoleum = " . substr($item, 0, strpos($item, '_')) . " AND id_plinth=" . substr($item, strpos($item, '_') + 1);
-                query($query);
+                $connect->query($query);
             }
             $data['text'] = "Удалено";
             $data['error'] = false;
@@ -71,7 +71,7 @@ switch ($_POST['table_name']) {
     default: {
             foreach ($_POST['item'] as $item) {
                 $query = "DELETE FROM `" . $_POST['table_name'] . "` WHERE id = $item;";
-                // query($query);
+                //$connect->query($query);
             }
             $data['text'] = "Удалено";
             $data['error'] = false;

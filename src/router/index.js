@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from "@/store";
 import Auth from "./../components/AuthWindow";
 import Main from "./../components/Main/MainPage";
 import Admin from "./../components/AdminPanel/NavBlock";
@@ -13,6 +14,27 @@ import Users from "./../components/AdminPanel/users/ManagementUsers";
 import AddAllowances from "./../components/AdminPanel/pricing/AddAllowances";
 import SchedulesMain from "./../components/Schedules/SchedulesMain";
 import SchedulesBody from "./../components/Schedules/SchedulesBody";
+import Accounting from "./../components/AdminPanel/accounting/AccountingBody";
+
+async function loadData() {
+  if (
+    !store.state.librares.cites.length &&
+    !store.state.librares.statuses.length &&
+    !store.state.librares.payment.length &&
+    !store.state.librares.toc.length
+  ) {
+    await store.dispatch("getAllLists");
+    store.dispatch("getStatuses");
+  }
+  if (!store.state.MainList.allList.length) {
+    await store.dispatch("fetchAllList");
+  }
+  if (!store.state.CatalogList.catalog.length) {
+    await store.dispatch("fetchCatalog");
+  }
+
+  return true;
+}
 
 const routes = [
   {
@@ -23,10 +45,13 @@ const routes = [
   },
   {
     path: "/",
-    name: "Main",
-    component: Main,
-    meta: { title: "Главная" },
     children: [
+      {
+        path: "",
+        name: "Main",
+        component: Main,
+        meta: { title: "Главная" },
+      },
       {
         path: "application-:id",
         name: "App",
@@ -65,6 +90,13 @@ const routes = [
         component: Users,
         meta: { title: "Пользователи" },
       },
+      {
+        path: "accounting",
+        name: "Accounting",
+        component: Accounting,
+        meta: { title: "Бухгалтерия" },
+      },
+
       {
         path: "pricing",
         name: "Pricing",
@@ -131,6 +163,9 @@ router.beforeEach((to, from, next) => {
   }
   if (to.name !== "Auth" && !localStorage.user) next({ name: "Auth" });
   else {
+    if (to.name != "Auth" && localStorage.user) {
+      loadData();
+    }
     if (to.name == "Admin") {
       if (JSON.parse(localStorage.user).rights.includes("3")) {
         next({ name: "Add" });

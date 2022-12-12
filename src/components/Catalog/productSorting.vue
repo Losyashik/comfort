@@ -30,6 +30,8 @@
   </form>
 </template>
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   data() {
     return {
@@ -38,6 +40,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations({ sorting: "SORTING_CATALOG" }),
     openList(creteria) {
       if (creteria.openList) {
         creteria.openList = false;
@@ -63,7 +66,9 @@ export default {
       let data = "type_list=" + this.type;
       checkBoxList.forEach((el) => {
         if (el.checked) {
-          if (!this.sortData[el.name]) this.sortData[el.name] = [];
+          if (!this.sortData[el.name]) {
+            this.sortData[el.name] = [];
+          }
           this.sortData[el.name].push(el.value);
         }
       });
@@ -76,8 +81,10 @@ export default {
         body: data,
         headers: { "content-type": "application/x-www-form-urlencoded" },
       }).then((resp) => resp.json());
-
-      this.$emit("sorting", this.sortData);
+      this.$parent.count =
+        this.type == "doorstep" || this.type == "related" ? 60 : 20;
+      document.querySelector(".catalog_product_list").scrollTop = 0;
+      this.sorting({ type: this.type, data: this.sortData });
     },
   },
 
@@ -87,7 +94,6 @@ export default {
     });
   },
   props: ["type"],
-  emits: ["sorting"],
 };
 </script>
 <style lang="scss" scoped src="./../../assets/styles/sort.scss"></style>

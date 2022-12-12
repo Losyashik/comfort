@@ -209,6 +209,7 @@
   </div>
 </template>
 <script>
+import { mapMutations } from "vuex";
 function number_to_string(_number) {
   var _arr_numbers = new Array();
   _arr_numbers[1] = new Array(
@@ -352,6 +353,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations["updateModal"],
     priceToText(price) {
       return number_to_string(price);
     },
@@ -443,9 +445,7 @@ export default {
         method: "POST",
         body: data,
       }).then((response) => response.json());
-      let modal = this.$parent.$parent.$parent.$parent.modal;
-      modal.text = resp.text;
-      modal.active = resp.active;
+      this.updateModal(resp);
     },
   },
 };
