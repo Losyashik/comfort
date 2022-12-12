@@ -14,19 +14,19 @@ module.exports = {
       //https://cli.vuejs.org/guide/html-and-static-assets.html#disable-index-generation
       "/backend/*": {
         //everything from root
-        target: "http://backend_vuex/",
+        target: "http://backend/",
         secure: false,
         ws: false,
       },
       "/ws/": {
         //web sockets
-        target: "http://backend_vuex/",
+        target: "http://backend/",
         secure: false,
         ws: true,
       },
       "!/": {
         //except root, which is served by webpack's devserver, to faciliate instant updates
-        target: "http://backend_vuex/",
+        target: "http://backend/",
         secure: false,
         ws: false,
       },
