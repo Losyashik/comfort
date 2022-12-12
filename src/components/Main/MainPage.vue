@@ -19,9 +19,9 @@
         </a>
       </div>
       <!-- <div class="tab interface" id="edit_to_list">
-        <a @click="refresh()" title="Обновить">
-          <img src="./../../assets/images/interface/refresh.png" alt="" />
-        </a>
+        <router-link :to="{ name: 'ScriptMain' }" title="Скрипты">
+          <img src="./../../assets/images/interface/script.png" alt="" />
+        </router-link>
       </div> -->
       <div class="tab interface" id="edit_to_list">
         <a @click="addTab('new', {})" title="Добавить заявку">
@@ -120,7 +120,11 @@
               }}<span class="null" v-show="!data.city">----------</span>
             </td>
             <td>
-              {{ data.street ? data.street + ", д." + data.house : "" }}
+              {{
+                data.street
+                  ? data.street + (data.house ? ", д." + data.house : "")
+                  : ""
+              }}
               <span class="null" v-show="!data.street">----------</span>
             </td>
             <td>

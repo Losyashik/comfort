@@ -15,6 +15,9 @@ import AddAllowances from "./../components/AdminPanel/pricing/AddAllowances";
 import SchedulesMain from "./../components/Schedules/SchedulesMain";
 import SchedulesBody from "./../components/Schedules/SchedulesBody";
 import Accounting from "./../components/AdminPanel/accounting/AccountingBody";
+import ScriptBody from "./../components/Scripts/ScriptBody";
+import ScriptMain from "./../components/Scripts/ScriptMain";
+import PersonalBody from "./../components/Scripts/PersonalBody";
 
 async function loadData() {
   if (
@@ -133,6 +136,27 @@ const routes = [
     name: "NotRight",
     component: NotRight,
     meta: { title: "Нет прав" },
+  },
+  {
+    path: "/scripts",
+    name: "Scripts",
+    component: ScriptBody,
+    meta: { title: "Скрипты" },
+    children: [
+      {
+        path: "",
+        name: "ScriptMain",
+        component: ScriptMain,
+        meta: { title: "Скрипты" },
+      },
+      {
+        path: "./sctipt-:id",
+        name: "PersonalBody",
+        component: PersonalBody,
+        meta: { title: "Скрипты" },
+        props: true,
+      },
+    ],
   },
   {
     path: "/:pathMatch(.*)*",

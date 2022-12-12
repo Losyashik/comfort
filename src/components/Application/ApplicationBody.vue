@@ -20,7 +20,7 @@
             <input
               tabindex="2"
               autocomplete="false"
-              v-model="data.initials"
+              v-model="data.full_name"
               placeholder="Введите ФИО"
               type="text"
             />
@@ -973,9 +973,24 @@ export default {
         sum += el.col_vo * el.final_price;
         purchase += el.col_vo * el.purchase_price;
       });
+      data.productList.related.forEach((el) => {
+        el.price = el.price ? el.price : 0;
+        el.final_price = String(el.final_price).replace(/,/, ".");
+        el.purchase_price = String(el.purchase_price).replace(/,/, ".");
+        if (
+          el.final_price < el.price - el.price.price * 0.1 &&
+          !this.$parent.user.rights.includes("10")
+        ) {
+          el.final_price = el.price - el.price.price * 0.1;
+        }
+        sum += el.col_vo * el.final_price;
+        purchase += el.col_vo * el.purchase_price;
+      });
+
       data.sum = sum.toFixed(2);
       data.weight = weight.toFixed(2);
       data.purchase = purchase.toFixed(2);
+
       this.watch = true;
     },
     async addApplication() {

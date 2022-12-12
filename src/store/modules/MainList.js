@@ -10,7 +10,7 @@ async function scan(ctx) {
       ctx.commit("sortingMain", ctx.state.sortData);
     }
   }
-  setTimeout(scan(ctx), 20000);
+  scan(ctx);
 }
 
 export default {

@@ -9,11 +9,11 @@ $mainList = ["update" => true];
 if (isset($_GET['edit'])) {
   $scan = true;
   while ($scan) {
-
+    sleep(1.5);
     $lastUpdateBD = $connect->getData("SELECT MAX(last_update) as date FROM orders")[0]["date"];
     if ($_SESSION['last_update'] < strtotime($lastUpdateBD)) {
       $scan = false;
-    } else if (time() - $_SERVER['REQUEST_TIME'] >= 20) {
+    } else if (time() - $_SERVER['REQUEST_TIME'] >= 3) {
       $scan = false;
       echo json_encode(["update" => 0, "list" => []], JSON_UNESCAPED_UNICODE);
       exit();

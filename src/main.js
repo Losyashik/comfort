@@ -10,7 +10,7 @@ app.component("modal-window", ModalWindow);
 
 app.config.globalProperties.$images = "";
 app.config.globalProperties.$connect = "/backend/";
-// app.config.globalProperties.$images = "http://backend_vuex/";
+// app.config.globalProperties.$images = "http://backend/";
 
 app.config.globalProperties.$acceptNumber = (number) => {
   var x = number

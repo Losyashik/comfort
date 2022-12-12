@@ -18,8 +18,8 @@ if (isset($data['add'])) {
 
     $stat_id =  $data['status'];
     $connect->query("INSERT INTO `order_history` (`id_status`, `id_order`,id_user) VALUES ('$stat_id', '" . $data["id"] . "', $id_user)");
-    if (isset($data['no_1c'])) {
-        $connect->query("UPDATE `orders` SET no_order_1c = '" . $data['no_1c'] . "' WHERE id = " . $data["id"]);
+    if (isset($data['no_order_1c'])) {
+        $connect->query("UPDATE `orders` SET no_order_1c = '" . $data['no_order_1c'] . "' WHERE id = " . $data["id"]);
     }
 
     if ($data['payment_method'] != 0) {
@@ -91,8 +91,8 @@ if (isset($data['add'])) {
     if ($stat_id != $last_stat_id) {
         $connect->query("INSERT INTO `order_history` (`id_status`, `id_order`, `id_user`) VALUES ('$stat_id', '" . $data["id"] . "', $id_user)");
     }
-    if (isset($data['no_1c'])) {
-        $connect->query("UPDATE `orders` SET no_order_1c = '" . $data['no_1c'] . "' WHERE id = " . $data["id"]);
+    if (isset($data['no_order_1c'])) {
+        $connect->query("UPDATE `orders` SET no_order_1c = '" . $data['no_order_1c'] . "' WHERE id = " . $data["id"]);
     }
     if ($data['payment_method'] != 0) {
         $connect->query("UPDATE `orders` SET payment_method = '" . $data['payment_method'] . "' WHERE id = " . $data["id"]);
