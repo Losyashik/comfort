@@ -34,7 +34,7 @@ export default {
     firstDayOfWeek: {
       type: String,
       validator: (v) => DAYS_SHORTCUTS.includes(v),
-      default: "mon",
+      default: "пн",
     },
   },
 

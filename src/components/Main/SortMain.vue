@@ -2,10 +2,10 @@
   <div class="sort_body">
     <div class="search">
       <select name="type" @change="getFormData" v-model="search.type">
-        <option value="nick">Поиск по нику</option>
-        <option value="number">Поиск по номеру</option>
         <option value="street">Поиск по улице</option>
+        <option value="number">Поиск по номеру</option>
         <option value="no_order_1c">Поиск по номеру 1С</option>
+        <option value="nick">Поиск по нику</option>
       </select>
       <input
         type="search"
@@ -13,6 +13,8 @@
         placeholder="Поиск"
         v-model="search.text"
         @input="getFormData"
+        @focus="$parent.focus = true"
+        @focusout="$parent.focus = false"
       />
     </div>
     <div class="form_body">
@@ -32,10 +34,37 @@
           </li>
         </ul>
       </div>
+      <div class="calendar">
+        <div class="calendar_interface">
+          <div class="calendar_interface_info">
+            {{
+              range.start
+                ? $getStringDate(range.start) +
+                  (range.end ? " - " + $getStringDate(range.end) : "")
+                : "Дата не выбрана"
+            }}
+          </div>
+          <button
+            @click.prevent="
+              range.start = '';
+              range.end = '';
+            "
+          >
+            Сброс
+          </button>
+        </div>
+        <v-range-selector
+          class="main_calendar"
+          :singleMonth="true"
+          v-model:start-date="range.start"
+          v-model:end-date="range.end"
+        ></v-range-selector>
+      </div>
     </div>
   </div>
 </template>
 <script>
+import VRangeSelector from "./../../assets/componets/vuelendar/components/vl-range-selector";
 import { mapMutations } from "vuex";
 
 async function post(list, path, data) {
@@ -50,15 +79,22 @@ async function post(list, path, data) {
   });
 }
 export default {
+  components: {
+    VRangeSelector,
+  },
   data() {
     return {
       search: { type: "nick", text: "" },
       sortData: {},
       sortList: [],
+      range: {
+        start: "",
+        end: "",
+      },
     };
   },
   methods: {
-    ...mapMutations(["sortingMain"]),
+    ...mapMutations({ sortingMain: "SORTING_MAIN" }),
     openList(creteria) {
       if (creteria.openList) {
         creteria.openList = false;
@@ -89,9 +125,12 @@ export default {
       if (Object.keys(this.sortData) != [])
         keys = Object.keys(this.sortData).length;
       else keys = 0;
-      if (keys != 0) {
+      if (keys != 0 || this.range.start != "") {
         this.sortData.opiration = [];
         this.sortData.opiration.push("sorting");
+      }
+      if (this.range.start) {
+        this.sortData.date = this.range;
       }
       if (this.search.text.length != 0) {
         this.sortData.type = this.search.type;
@@ -113,6 +152,34 @@ export default {
   created: function () {
     this.upodateSortList();
   },
+  watch: {
+    range: {
+      deep: true,
+      handler() {
+        this.getFormData();
+      },
+    },
+  },
 };
 </script>
+<style src="vuelendar/scss/vuelendar.scss" lang="scss"></style>
 <style scoped lang="scss" src="./../../assets/styles/sort.scss"></style>
+<style lang="scss">
+.vl-calendar.main_calendar {
+  .vl-calendar-month {
+    width: auto;
+    margin-bottom: 10px;
+  }
+  .vl-calendar-month__week-day {
+    margin-bottom: 5px;
+  }
+  .vl-calendar-month__day {
+    margin: 2px 0;
+    @for $i from 1 through 6 {
+      &--offset-#{$i} {
+        margin-left: calc(#{$i} * 14%);
+      }
+    }
+  }
+}
+</style>

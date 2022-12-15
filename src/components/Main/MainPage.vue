@@ -57,7 +57,7 @@
       >
       <router-link v-if="schedules()" to="/schedules">Графики</router-link>
     </nav>
-    <div class="leftbar" :class="{ hidden: displayMain }">
+    <div class="leftbar" :class="{ show: focus, hidden: displayMain }">
       <!-- 
       <button
         id="seeing_catalog"
@@ -262,7 +262,7 @@ export default {
       showMenu: false,
       user: {},
       add: false,
-
+      focus: false,
       selectedTab: "main",
       prevCatalog: false,
       displayMain: true,
@@ -274,7 +274,7 @@ export default {
   },
   methods: {
     ...mapActions(["fetchCatalog"]),
-    ...mapMutations(["SortForColumn"]),
+    ...mapMutations({ SortingByColumn: "SORTING_BY_COLUMN" }),
     refresh() {
       this.fetchCatalog();
     },
@@ -407,7 +407,7 @@ export default {
         e.target.classList.remove("down");
       }
       order = e.target.dataset.order;
-      this.SortForColumn({ column, order });
+      this.SortingByColumn({ column, order });
     },
     addTab(id, data) {
       switch (id) {

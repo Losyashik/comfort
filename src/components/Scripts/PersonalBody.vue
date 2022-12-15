@@ -68,17 +68,13 @@
                 Далее
               </button>
             </templeat>
-            <templeat v-if="answer.input == 'region'">
-              <select>
+            <templeat v-if="answer.input == 'areal'">
+              <select v-model="data[answer.input].text">
+                <option value="">Выберете регион</option>
                 <option
                   v-for="(item, index) in arials"
-                  @change="
-                    index != arials.length
-                      ? (data.area.text = arials[index])
-                      : ''
-                  "
                   :key="index"
-                  value="index"
+                  :value="item"
                 >
                   {{ item }}
                 </option>
@@ -112,8 +108,8 @@ export default {
       user: {},
       data: {
         name: { title: "Имя: ", text: "" },
-        area: { title: "Регион", text: "" },
-        size: {
+        areal: { title: "Регион: ", text: "" },
+        space: {
           title: "Размеры: ",
           pieces: [
             { width: "4", len: "3", space: "12" },

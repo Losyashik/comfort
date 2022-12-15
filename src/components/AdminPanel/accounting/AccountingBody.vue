@@ -51,7 +51,7 @@
   </div>
 </template>
 <script>
-import VRangeSelector from "./../components/vuelendar/components/vl-range-selector";
+import VRangeSelector from "vuelendar/components/vl-range-selector";
 
 export default {
   components: {
@@ -108,4 +108,3 @@ export default {
   scoped
   src="./../../../assets/styles/admin/accounting/accounting.scss"
 ></style>
-<style lang="scss" src="./../components/vuelendar/scss/vuelendar.scss"></style>

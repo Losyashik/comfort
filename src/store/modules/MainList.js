@@ -1,3 +1,4 @@
+import store from "..";
 import api from "./../../api";
 
 async function scan(ctx) {
@@ -6,8 +7,9 @@ async function scan(ctx) {
     const list = resp.data;
 
     if (list["update"]) {
-      ctx.commit("selectiveUpdateList", list.list);
-      ctx.commit("sortingMain", ctx.state.sortData);
+      ctx.commit("SELECTIVE_UPDATE_LIST", list.list);
+      ctx.commit("SORTING_MAIN", ctx.state.sortData);
+      ctx.commit("SORTING_BY_COLUMN", ctx.state.sortByColumnDate);
     }
   }
   scan(ctx);
@@ -19,6 +21,7 @@ export default {
     list: [],
     sortData: {},
     statuses: [],
+    sortByColumnDate: {},
   },
   getters: {
     GET_MAIN_LIST(state) {
@@ -29,12 +32,17 @@ export default {
     GET_MAIN_LIST(state) {
       return state.allList;
     },
-    SortForColumn(state, { column, order }) {
+    SORTING_BY_COLUMN(state, { column, order }) {
+      state.sortByColumnDate = {
+        column,
+        order,
+      };
+      console.log(state.sortByColumnDate);
       switch (column) {
         case "city": {
           if (order == "none") {
             state.list.sort((a, b) => {
-              return a.id - b.id;
+              return b.id - a.id;
             });
           } else if (order == "up") {
             state.list.sort((a, b) => {
@@ -57,7 +65,7 @@ export default {
           console.log(state);
           if (order == "none") {
             state.list.sort((a, b) => {
-              return a.id - b.id;
+              return b.id - a.id;
             });
           } else if (order == "up") {
             state.list.sort((a, b) => {
@@ -149,25 +157,7 @@ export default {
         case "date": {
           if (order == "none") {
             state.list.sort((a, b) => {
-              return a.id - b.id;
-            });
-          } else if (order == "down") {
-            state.list.sort((a, b) => {
-              let date_a =
-                a.status == 2
-                  ? "measuring_date"
-                  : a.status == 5 || a.status == 6
-                  ? "delivery_date"
-                  : "expectation";
-              let date_b =
-                b.status == 2
-                  ? "measuring_date"
-                  : b.status == 5 || b.status == 6
-                  ? "delivery_date"
-                  : "expectation";
-              if (a[date_a] > b[date_b] || b[date_b] == undefined) return 1;
-              if (a[date_a] == b[date_b]) return 0;
-              if (a[date_a] < b[date_b] || a[date_a] == undefined) return -1;
+              return b.id - a.id;
             });
           } else if (order == "up") {
             state.list.sort((a, b) => {
@@ -183,7 +173,25 @@ export default {
                   : b.status == 5 || b.status == 6
                   ? "delivery_date"
                   : "expectation";
-              if (a[date_a] < b[date_b] || a[date_a] == undefined) return 1;
+              if (a[date_a] > b[date_b] || a[date_a] == undefined) return 1;
+              if (a[date_a] == b[date_b]) return 0;
+              if (a[date_a] < b[date_b] || b[date_a] == undefined) return -1;
+            });
+          } else if (order == "down") {
+            state.list.sort((a, b) => {
+              let date_a =
+                a.status == 2
+                  ? "measuring_date"
+                  : a.status == 5 || a.status == 6
+                  ? "delivery_date"
+                  : "expectation";
+              let date_b =
+                b.status == 2
+                  ? "measuring_date"
+                  : b.status == 5 || b.status == 6
+                  ? "delivery_date"
+                  : "expectation";
+              if (a[date_a] < b[date_b] || b[date_b] == undefined) return 1;
               if (a[date_a] == b[date_b]) return 0;
               if (a[date_a] > b[date_b] || b[date_b] == undefined) return -1;
             });
@@ -193,7 +201,7 @@ export default {
         }
       }
     },
-    sortingMain(state, data) {
+    SORTING_MAIN(state, data) {
       state.sortData = data;
       if (Object.keys(data).length) {
         let list = state.allList;
@@ -233,6 +241,34 @@ export default {
               );
             }
           }
+          if (Object.keys(data).indexOf("date") != -1) {
+            if (!data.date.end) {
+              list = list.filter((item) => {
+                let date =
+                  item.status == 2
+                    ? "measuring_date"
+                    : item.status == 5 || item.status == 6
+                    ? "delivery_date"
+                    : "expectation";
+                return item[date] == data.date.start;
+              });
+            }
+            if (data.date.end) {
+              list = list.filter((item) => {
+                let date =
+                  item.status == 2
+                    ? "measuring_date"
+                    : item.status == 5 || item.status == 6
+                    ? "delivery_date"
+                    : "expectation";
+                return (
+                  Date.parse(item[date]) >= Date.parse(data.date.start) &&
+                  Date.parse(item[date]) <= Date.parse(data.date.end) &&
+                  item[date] != undefined
+                );
+              });
+            }
+          }
         }
         if (data.opiration.indexOf("search") != -1) {
           if (data.type == "nick") {
@@ -255,20 +291,23 @@ export default {
             );
           }
         }
-        if (list.length) state.list = list;
-        else state.list = [{ text: "Ничего не найдено" }];
+
+        if (list.length) {
+          state.list = list;
+        } else state.list = [{ text: "Ничего не найдено" }];
       } else
         state.list = state.allList.filter(
           (item) => item.status != 7 && item.status != 8
         );
+      store.commit("SORTING_BY_COLUMN", state.sortByColumnDate);
     },
-    updateStatuses(state, data) {
+    UPDATE_STATUSES(state, data) {
       state.statuses = data;
     },
-    updateList(state, data) {
+    UPDATE_LIST(state, data) {
       state.allList = data;
     },
-    selectiveUpdateList(state, data) {
+    SELECTIVE_UPDATE_LIST(state, data) {
       data.forEach((newItem) => {
         var index = state.allList.indexOf(
           state.allList.filter((item) => item.id == newItem.id)[0]
@@ -284,18 +323,20 @@ export default {
   },
   actions: {
     getStatuses(ctx) {
-      ctx.commit("updateStatuses", ctx.rootState.librares.statuses);
+      ctx.commit("UPDATE_STATUSES", ctx.rootState.librares.statuses);
     },
     async fetchAllList(ctx, limit = true) {
       const list = (await api.get("mainList.php?limit=100")).data;
-      ctx.commit("updateList", list.list);
-      ctx.commit("sortingMain", ctx.state.sortData);
+      ctx.commit("UPDATE_LIST", list.list);
+      ctx.commit("SORTING_MAIN", ctx.state.sortData);
+      ctx.commit("SORTING_BY_COLUMN", ctx.state.sortByColumnDate);
       if (limit) {
         const list = (await api.get("mainList.php")).data;
-        ctx.commit("updateList", list.list);
-        ctx.commit("sortingMain", ctx.state.sortData);
+        ctx.commit("UPDATE_LIST", list.list);
+        ctx.commit("SORTING_MAIN", ctx.state.sortData);
+        ctx.commit("SORTING_BY_COLUMN", ctx.state.sortByColumnDate);
       }
-      setTimeout(scan(ctx), 60000);
+      setTimeout(scan(ctx), 70000);
     },
   },
 };
