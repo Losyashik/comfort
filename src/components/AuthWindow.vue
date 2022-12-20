@@ -1,6 +1,6 @@
 <template>
   <div class="login_body">
-    <form id="auth">
+    <form id="auth" @submit.prevent="authorization($event)">
       <h2>Авторизация</h2>
       <div class="border">
         <input
@@ -29,7 +29,7 @@
       <div :class="{ active: message.length, message: true }">
         {{ message }}
       </div>
-      <button @click="authorization($event)">Войти</button>
+      <button>Войти</button>
     </form>
   </div>
 </template>
@@ -65,7 +65,6 @@ export default {
       }
     },
     authorization(event) {
-      event.preventDefault();
       if (this.data.login.length === 0) {
         let inp = document.querySelector("input[name = 'login']");
         inp.parentNode.style =
@@ -82,7 +81,7 @@ export default {
       let inp = document.querySelector("input");
       inp.style = "";
       this.message = "";
-      let form = event.target.parentNode;
+      let form = event.target;
       let data = new FormData(form);
       let promis = fetch(this.$connect + "authorization.php", {
         method: "post",
