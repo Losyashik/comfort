@@ -56,6 +56,23 @@
         <v-range-selector
           class="main_calendar"
           :singleMonth="true"
+          :customClasses="{
+            now_date: (date) => {
+              var nowData = new Date();
+              var nowDate =
+                nowData.getFullYear() +
+                '-' +
+                (nowData.getMonth() + 1 < 10
+                  ? '0' + nowData.getMonth() + 1
+                  : nowData.getMonth() + 1) +
+                '-' +
+                (nowData.getDate() < 10
+                  ? '0' + nowData.getDate()
+                  : nowData.getDate());
+              return nowDate == date;
+            },
+          }"
+          :enableSingleDate="true"
           v-model:start-date="range.start"
           v-model:end-date="range.end"
         ></v-range-selector>
@@ -102,7 +119,6 @@ export default {
         creteria.openList = true;
       }
     },
-
     upodateSortList() {
       this.sortList = [];
       let path = this.$connect + "main/sotList.php";
@@ -144,7 +160,6 @@ export default {
       if (!this.sortData.opiration) {
         this.sortData = {};
       }
-      console.log(this.sortData);
       this.sortingMain(this.sortData);
     },
   },
@@ -174,6 +189,10 @@ export default {
     margin-bottom: 5px;
   }
   .vl-calendar-month__day {
+    &.now_date {
+      background-color: #ccc;
+      border-radius: 14px;
+    }
     margin: 2px 0;
     @for $i from 1 through 6 {
       &--offset-#{$i} {

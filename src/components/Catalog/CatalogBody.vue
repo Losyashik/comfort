@@ -25,11 +25,7 @@
         </div>
       </header>
       <nav class="sort">
-        <product-sorting
-          :key="type"
-          :type="type"
-          @sorting="sortProducts"
-        ></product-sorting>
+        <product-sorting :key="type" :type="type"></product-sorting>
       </nav>
       <div
         v-if="catalogMode"
@@ -231,7 +227,6 @@ export default {
       previewAdd: false,
       catalogMode: true,
       count: 20,
-
       type: "linoleum",
       productType: [
         { name: "Линолеум", type: "linoleum", selected: true, count: 20 },
@@ -242,7 +237,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations({ tabTipe: "SET_CATALOG" }),
+    ...mapMutations({ tabTipe: "SET_CATALOG", sorting: "SORTING_CATALOG" }),
     selectType(type) {
       const selectedType = this.productType.filter((item) => item.selected)[0];
       if (selectedType.type == type) return false;
@@ -313,6 +308,8 @@ export default {
     this.$nextTick(function () {
       this.previewAdd = Boolean(this.add);
       this.catalogMode = Boolean(this.catalog);
+      if (this.previewAdd)
+        this.sorting({ type: this.type, data: { add: true } });
     });
   },
   watch: {

@@ -29,15 +29,11 @@ export default {
     },
   },
   mutations: {
-    GET_MAIN_LIST(state) {
-      return state.allList;
-    },
     SORTING_BY_COLUMN(state, { column, order }) {
       state.sortByColumnDate = {
         column,
         order,
       };
-      console.log(state.sortByColumnDate);
       switch (column) {
         case "city": {
           if (order == "none") {
@@ -62,7 +58,6 @@ export default {
         }
         case "status": {
           let status = state.statuses;
-          console.log(state);
           if (order == "none") {
             state.list.sort((a, b) => {
               return b.id - a.id;
@@ -312,7 +307,6 @@ export default {
         var index = state.allList.indexOf(
           state.allList.filter((item) => item.id == newItem.id)[0]
         );
-        console.log(index);
         if (index != -1) {
           state.allList[index] = newItem;
         } else {

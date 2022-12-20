@@ -108,7 +108,6 @@ export default {
           classes.push(`vl-calendar-month__day--offset-${offset}`);
         }
       }
-
       const date = this.getDate(day);
       if (this.isSelected && this.isSelected(date)) {
         classes.push("selected");

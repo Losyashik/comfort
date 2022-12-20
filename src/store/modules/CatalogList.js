@@ -119,6 +119,9 @@ export default {
                 return data[item].includes(e.width);
               });
             });
+          } else if (item == "add") {
+            if (type == "linoleum")
+              list = list.filter((el) => (el.show_product ? true : false));
           } else if (item == "search") {
             list = list.filter(
               (el) =>

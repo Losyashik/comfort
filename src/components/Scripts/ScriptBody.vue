@@ -8,8 +8,11 @@
       <h3>Начатые диалоги</h3>
       <ul>
         <li>
-          <router-link :to="{ name: 'PersonalBody', params: { id: '1' } }"
-            >Николай</router-link
+          <router-link
+            v-for="item in dialogs"
+            :key="item.id"
+            :to="{ name: 'PersonalBody', params: { id: item.id } }"
+            >{{ item.name ? item.name : "Неизвестный" }}</router-link
           >
         </li>
       </ul>
@@ -17,4 +20,22 @@
     <RouterView></RouterView>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      dialogs: [],
+    };
+  },
+  methods: {
+    addDialog() {
+      this.tabs.push({
+        steps: [0],
+      });
+      let index = this.tabs.length;
+      this.$router.push({ name: "PersonalBody", params: { id: index } });
+    },
+  },
+};
+</script>
 <style scoped lang="scss" src="./../../assets/styles/scripts/main.scss"></style>

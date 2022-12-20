@@ -6,7 +6,33 @@ $request_body = file_get_contents('php://input');
 $data_page = json_decode($request_body, true);
 include_once('./../../backend/librares/connect.php');
 if ($data_page['product'] == '') {
-    if ($data_page['type'] == "linoleum" or $data_page['type'] == "plinth") {
+    if ($data_page['type'] == "linoleum") {
+        if (isset($data_page['sort'])) {
+            $data['sort'] = [
+                "maker" => $connect->getData("SELECT id,name FROM " . $data_page['type'] . "_maker"),
+                "collection" => $connect->getData("SELECT id,name FROM " . $data_page['type'] . "_collection")
+            ];
+            if ($data_page['sort']['maker'] != 0) {
+                $data['sort']["collection"] = $connect->getData("SELECT id, name FROM " . $data_page['type'] . "_collection WHERE id_maker=" . $data_page['sort']['maker']);
+                if ($data_page['sort']['collection'] != 0) {
+                    $data['sort']['maker'] = $connect->getData("SELECT id, name FROM " . $data_page['type'] . "_maker WHERE id in (SELECT id_maker FROM " . $data_page['type'] . "_collection WHERE id =" . $data_page['sort']['collection'] . ")");
+                    $data['list'] = $connect->getData("SELECT id, name, `show_product` as `show` FROM " . $data_page['type'] . " WHERE id_collection = " . $data_page['sort']['collection'] . " AND `id_maker`=" . $data_page['sort']['maker']);
+                } else
+                    $data['list'] = $connect->getData("SELECT id, name, `show_product` as `show` FROM " . $data_page['type'] . " WHERE `id_maker`=" . $data_page['sort']['maker']);
+            } else {
+                if ($data_page['sort']['collection'] != 0) {
+                    $data['sort']['maker'] = $connect->getData("SELECT id,name FROM " . $data_page['type'] . "_maker WHERE id in (SELECT id_maker FROM " . $data_page['type'] . "_collection WHERE id =" . $data_page['sort']['collection'] . ")");
+                    $data['list'] = $connect->getData("SELECT id,name, `show_product` as `show` FROM " . $data_page['type'] . " WHERE id_collection = " . $data_page['sort']['collection']);
+                }
+            }
+        } else {
+            $data['sort'] = [
+                "maker" => $connect->getData("SELECT id,name FROM " . $data_page['type'] . "_maker"),
+                "collection" => $connect->getData("SELECT id,name FROM " . $data_page['type'] . "_collection")
+            ];
+            $data['list'] = $connect->getData("SELECT id,name, `show_product` as `show` FROM " . $data_page['type']);
+        }
+    } else if ($data_page['type'] == "plinth") {
         if (isset($data_page['sort'])) {
             $data['sort'] = [
                 "maker" => $connect->getData("SELECT id,name FROM " . $data_page['type'] . "_maker"),

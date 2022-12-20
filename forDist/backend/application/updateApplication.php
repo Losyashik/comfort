@@ -51,7 +51,7 @@ if (isset($data['add'])) {
     foreach ($data['productList']['linoleum'] as $key => $elem) {
         $sql = 'INSERT INTO `product_list`( `id_order`, `id_width`, `id_linoleum`, `length`, `final_price`,`purchase_price`,`id_provider`) VALUES (' . $data["id"] . ',(SELECT id FROM linoleum_width WHERE id_linoleum="' . $elem['id_linoleum'] . '" AND width = "' . $elem['width']['select'] . '"),"' . $elem['id_linoleum'] . '","' . $elem['len'] . '","' . $elem['price']['fact'] . '","' . $elem['purchase_price'] . '","' . $elem['provider'] . '")';
         $link = $connect->query($sql);
-        $data['productList']['linolium'][$key]['id'] = $link->insert_id;
+        $data['productList']['linoleum'][$key]['id'] = $link->insert_id;
     }
 
     foreach ($data['productList']['plinth'] as $key =>  $elem) {
@@ -63,7 +63,7 @@ if (isset($data['add'])) {
     foreach ($data['productList']['accessories'] as $key =>  $elem) {
         $sql = 'INSERT INTO `product_list`( `id_order`, `id_accessories`, `col-vo`, `final_price`,`purchase_price`,`id_provider`) VALUES (' . $data["id"] . ',"' . $elem['id_accessories'] . '","' . $elem['col_vo'] . '","' . $elem['final_price'] . '","' . $elem['purchase_price'] . '","' . $elem['provider'] . '")';
         $link = $connect->query($sql);
-        $data['productList']['a'][$key]['id'] = $link->insert_id;
+        $data['productList']['accessories'][$key]['id'] = $link->insert_id;
     }
 
     foreach ($data['productList']['doorstep'] as $key =>  $elem) {

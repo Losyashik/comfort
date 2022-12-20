@@ -1,6 +1,6 @@
 <template>
   <main class="scripts_main">
-    <article>
+    <article @click="this.$parent.addDialog()">
       <h3>Телефонный звонок</h3>
       <img src="./../../assets/images/interface/phone.png" />
     </article>

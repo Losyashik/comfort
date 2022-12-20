@@ -37,6 +37,7 @@ export default {
     return {
       sortData: {},
       sortList: [],
+      previewAdd: false,
     };
   },
   methods: {
@@ -58,6 +59,7 @@ export default {
       }).then((resp) => resp.json());
     },
     async getFormData() {
+      console.log(this.prev);
       let search = document.querySelector('input[name="search"]').value;
       let checkBoxList = document.querySelectorAll(
         "input[type=checkbox].catalog"
@@ -75,12 +77,16 @@ export default {
       if (search != "") {
         this.sortData["search"] = search;
       }
+      if (this.$parent.previewAdd) {
+        this.sortData["add"] = true;
+      }
       data += "&sortList=" + JSON.stringify(this.sortList);
       this.sortList = await fetch(this.$connect + "catalog/sortList.php", {
         method: "post",
         body: data,
         headers: { "content-type": "application/x-www-form-urlencoded" },
       }).then((resp) => resp.json());
+
       this.$parent.count =
         this.type == "doorstep" || this.type == "related" ? 60 : 20;
       document.querySelector(".catalog_product_list").scrollTop = 0;
@@ -92,7 +98,9 @@ export default {
     this.$nextTick(function () {
       this.upodateSortList();
     });
+    if (this.$parent.previewAdd) this.getFormData();
   },
+
   props: ["type"],
 };
 </script>

@@ -24,9 +24,8 @@
                     v-for="opt in tag.options"
                     :key="opt.value"
                     :value="opt.id"
-                    @mousedown.prevent="
-                      $event.target.selected = !$event.target.selected
-                    "
+                    @mousedown.prevent="clickOption($event)"
+                    @mousemove.prevent
                   >
                     {{ opt.name }}
                   </option>
@@ -120,12 +119,13 @@
               name="item[]"
             >
               <option
-                @mousedown.prevent="
-                  $event.target.selected = !$event.target.selected
-                "
+                @mousedown.prevent="clickOption($event)"
+                @mousemove.prevent
                 v-for="item in list.list"
+                :data-log="item.show"
                 :key="item.id"
                 :value="item.id"
+                :class="{ show: item.show == '1', hidden: item.show == '0' }"
               >
                 {{ item.name }}
               </option>
@@ -139,7 +139,24 @@
             >
               Изменить
             </button>
+            <template v-if="data.type == 'linoleum'">
+              <button
+                id="show"
+                name="linoleum"
+                @click.prevent="showFromAdd($event.target)"
+              >
+                Показать
+              </button>
+              <button
+                id="hidden"
+                name="linoleum"
+                @click.prevent="showFromAdd($event.target)"
+              >
+                Скрыть
+              </button>
+            </template>
             <button
+              id="delete"
               @click.prevent="deleteProducts($event.target)"
               :name="
                 data.product == '' ? data.type : data.product + '_' + data.type
@@ -174,6 +191,12 @@ export default {
     };
   },
   methods: {
+    clickOption(e) {
+      let st = e.target.parentNode.scrollTop;
+      e.target.selected = !e.target.selected;
+      setTimeout(() => (e.target.parentNode.scrollTop = st), 0);
+      this.focus();
+    },
     async getDataForm() {
       if (this.$route.params.product == this.$route.params.type) {
         this.data = {
@@ -259,7 +282,7 @@ export default {
       let formData = new FormData(but.parentNode);
       formData.append("table_name", but.name);
       let app = this.$parent.$parent.$parent.$parent.$parent.$parent;
-      app.modal = await fetch(this.$connect + "/admin/deleteData.php", {
+      app.modal = await fetch(this.$connect + "admin/deleteData.php", {
         method: "POST",
         body: formData,
       }).then((response) => response.json());
@@ -268,6 +291,17 @@ export default {
     getDtataForEdit(but) {
       let formData = new FormData(but.parentNode);
       formData.append("table_name", but.name);
+    },
+    async showFromAdd(but) {
+      let formData = new FormData(but.parentNode);
+      console.log(but);
+      formData.append("table_name", but.name);
+      formData.append("show", but.id == "show" ? 1 : 0);
+      await fetch("/backend/admin/showData.php", {
+        method: "POST",
+        body: formData,
+      }).then((response) => response.json());
+      this.getDataList();
     },
     selectProduct(event) {
       let count = 0;
