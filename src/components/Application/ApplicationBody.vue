@@ -1065,7 +1065,6 @@ export default {
         this.$ws.send(
           JSON.stringify({ type: "application", data: this.data.id })
         );
-        
       } else {
         console.error(text.data.text);
       }
