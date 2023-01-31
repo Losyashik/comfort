@@ -201,7 +201,7 @@
         <div
           v-else-if="
             $parent.user.rights.includes('12') &&
-            (data.status == 5 || data.status == 6)
+            (data.status == 6 || data.status == 7)
           "
           class="block"
         >
@@ -1023,11 +1023,15 @@ export default {
         var tab = this.$parent.tabs.filter((tab) => tab.id == "new")[0];
         tab.id = text.data.dataPage.id;
         tab.data = text.data.dataPage;
+        this.load = false;
+        console.log(this.parent.parent);
+        this.$ws.send(
+          JSON.stringify({ type: "application", data: text.data.dataPage.id })
+        );
         this.$parent.selectTab(tab);
       } else {
         console.error(text.data.text);
       }
-      this.load = false;
       this.watch = true;
     },
     async updateApplication() {
@@ -1057,7 +1061,10 @@ export default {
       if (text.status == 200) {
         this.data = text.data.dataPage;
         this.data.number = this.$acceptNumber(this.data.number);
-
+        console.log(this.$parent.$parent.$parent.ws);
+        this.$ws.send(
+          JSON.stringify({ type: "application", data: this.data.id })
+        );
         this.watch = true;
         this.load = false;
       } else {
@@ -1079,15 +1086,6 @@ export default {
   },
   mounted() {
     this.watch = true;
-
-    document.addEventListener("keydown", (e) => {
-      if (this.$route.name != "App") return;
-      if (e.ctrlKey && e.key == "s") {
-        e.preventDefault();
-        if (this.data.no == 0) this.addApplication();
-        else this.updateApplication();
-      }
-    });
   },
   watch: {
     data: {

@@ -15,6 +15,9 @@
     <!-- <div class="block-link">
       <router-link :to="{ name: 'Accounting' }">Бухгалтерия</router-link>
     </div> -->
+    <div class="block-link">
+      <router-link :to="{ name: 'Statistics' }">Статистика</router-link>
+    </div>
   </div>
   <router-view class="admin_page"></router-view>
 </template>

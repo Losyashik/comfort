@@ -20,7 +20,7 @@ module.exports = {
       },
       "/ws/": {
         //web sockets
-        target: "http://backend/",
+        target: "http://localhost:8080/ws/",
         secure: false,
         ws: true,
       },

@@ -18,6 +18,7 @@ import Accounting from "./../components/AdminPanel/accounting/AccountingBody";
 import ScriptBody from "./../components/Scripts/ScriptBody";
 import ScriptMain from "./../components/Scripts/ScriptMain";
 import PersonalBody from "./../components/Scripts/PersonalBody";
+import StatisticsBody from "./../components/AdminPanel/statistics/StatisticsBody";
 
 async function loadData() {
   if (
@@ -31,6 +32,9 @@ async function loadData() {
   }
   if (!store.state.MainList.allList.length) {
     await store.dispatch("fetchAllList");
+  }
+  if (!store.state.user != {} && localStorage.user) {
+    store.commit("addUser", JSON.parse(localStorage.user));
   }
   if (!store.state.CatalogList.catalog.length) {
     await store.dispatch("fetchCatalog");
@@ -99,7 +103,12 @@ const routes = [
         component: Accounting,
         meta: { title: "Бухгалтерия" },
       },
-
+      {
+        path: "statistics",
+        name: "Statistics",
+        component: StatisticsBody,
+        meta: { title: "Статистика" },
+      },
       {
         path: "pricing",
         name: "Pricing",
@@ -158,6 +167,7 @@ const routes = [
       },
     ],
   },
+
   {
     path: "/:pathMatch(.*)*",
     redirect: "/",
@@ -199,6 +209,8 @@ router.beforeEach((to, from, next) => {
         next({ name: "AddPrice" });
       } else if (JSON.parse(localStorage.user).rights.includes("5")) {
         next({ name: "Users" });
+      } else if (JSON.parse(localStorage.user).rights.includes("14")) {
+        next({ name: "Statistics" });
       } else {
         next({ name: "NotRight" });
       }
@@ -221,6 +233,20 @@ router.beforeEach((to, from, next) => {
         case "AddAllowances": {
           if (!JSON.parse(localStorage.user).rights.includes("2")) {
             next({ name: "NotRight" });
+          }
+          break;
+        }
+        case "Statistics": {
+          if (!JSON.parse(localStorage.user).rights.includes("14")) {
+            next({ name: "NotRight" });
+          } else {
+            console.log(store.state.StatisticData);
+            if (
+              !store.state.StatisticData.allStatistics.length ||
+              !store.state.StatisticData.generalStatistics.length
+            ) {
+              store.dispatch("FETCH_GENERAL_STATISTICS");
+            }
           }
           break;
         }

@@ -1,6 +1,6 @@
 <template>
   <div class="login_body">
-    <form id="auth" @submit.prevent="authorization($event)">
+    <form id="auth" @submit.prevent="submit($event)">
       <h2>Авторизация</h2>
       <div class="border">
         <input
@@ -26,15 +26,15 @@
           alt=""
         />
       </div>
-      <div :class="{ active: message.length, message: true }">
-        {{ message }}
+      <div class="message" :class="{ active: GET_ERROR.length }">
+        {{ GET_ERROR }}
       </div>
       <button>Войти</button>
     </form>
   </div>
 </template>
 <script>
-// import { mapActions } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -44,11 +44,14 @@ export default {
       },
       auth: false,
       eye: "eye",
-      message: "",
     };
   },
+  computed: {
+    ...mapGetters(["GET_ERROR"]),
+  },
   methods: {
-    // ...mapActions(['autorisation']),
+    ...mapActions(["autorization"]),
+    ...mapMutations({ message: "writeError" }),
     watch() {
       let inp = document.querySelector("input[name = 'password']");
       switch (this.eye) {
@@ -64,40 +67,26 @@ export default {
         }
       }
     },
-    authorization(event) {
+    submit() {
       if (this.data.login.length === 0) {
         let inp = document.querySelector("input[name = 'login']");
         inp.parentNode.style =
           "border: 1px solid red; background:rgba(253, 33, 33, .5);";
-        this.message = "Поле логина не заполнено";
+        this.message("Поле логина не заполнено");
         return false;
       } else if (this.data.password.length === 0) {
         let inp = document.querySelector("input[name = 'password']");
         inp.parentNode.style =
           "border: 1px solid red; background:rgba(253, 33, 33, .5);";
-        this.message = "Поле пароля не заполнено";
+        this.message("Поле пароля не заполнено");
         return false;
       }
       let inp = document.querySelector("input");
       inp.style = "";
-      this.message = "";
-      let form = event.target;
-      let data = new FormData(form);
-      let promis = fetch(this.$connect + "authorization.php", {
-        method: "post",
-        body: data,
-      });
-      promis
-        .then((response) => response.json())
-        .then((result) => {
-          if (result.error) {
-            this.message = result.error;
-          } else {
-            result.time = new Date().getTime();
-            localStorage.user = JSON.stringify(result);
-            this.$router.push("main");
-          }
-        });
+      this.message("");
+      // let form = event.target;
+      let data = this.data;
+      this.autorization(data);
     },
   },
 };

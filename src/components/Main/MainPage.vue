@@ -146,7 +146,7 @@
                   ? data.measuring_date
                     ? "Замер"
                     : ""
-                  : data.status == 5 || data.status == 6
+                  : data.status == 6 || data.status == 7
                   ? data.delivery_date
                     ? "Доставка"
                     : ""
@@ -160,7 +160,7 @@
                     ? data.measuring_date
                       ? 'Замер'
                       : ''
-                    : data.status == 5 || data.status == 6
+                    : data.status == 6 || data.status == 7
                     ? data.delivery_date
                       ? 'Доставка'
                       : ''
@@ -175,7 +175,7 @@
               {{
                 data.status == 2
                   ? $getStringDate(data.measuring_date)
-                  : data.status == 5 || data.status == 6
+                  : data.status == 6 || data.status == 7
                   ? $getStringDate(data.delivery_date)
                   : $getStringDate(data.expectation)
               }}
@@ -183,7 +183,7 @@
                 v-show="
                   !(data.status == 2
                     ? $getStringDate(data.measuring_date)
-                    : data.status == 5 || data.status == 6
+                    : data.status == 6 || data.status == 7
                     ? $getStringDate(data.delivery_date)
                     : $getStringDate(data.expectation))
                 "
@@ -195,7 +195,7 @@
               {{
                 data.status == 2
                   ? $getTime(data.measuring_date, data.measuring_time)
-                  : data.status == 5 || data.status == 6
+                  : data.status == 6 || data.status == 7
                   ? $getTime(data.delivery_date, data.delivery_time)
                   : ""
               }}
@@ -203,7 +203,7 @@
                 v-show="
                   !(data.status == 2
                     ? $getTime(data.measuring_date, data.measuring_time)
-                    : data.status == 5 || data.status == 6
+                    : data.status == 6 || data.status == 7
                     ? $getTime(data.delivery_date, data.delivery_time)
                     : '')
                 "
@@ -273,8 +273,10 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["fetchCatalog"]),
-    ...mapMutations({ SortingByColumn: "SORTING_BY_COLUMN" }),
+    ...mapActions(["fetchCatalog", "exit", "fetchTabs", "fetchUpdateList"]),
+    ...mapMutations({
+      SortingByColumn: "SORTING_BY_COLUMN",
+    }),
     refresh() {
       this.fetchCatalog();
     },
@@ -290,16 +292,12 @@ export default {
     schedules() {
       return this.user.rights.includes("11") || this.user.rights.includes("12");
     },
-    async exit() {
-      localStorage.removeItem("user");
-      await api.get("exit.php");
-      this.$router.push("login");
-    },
     tabClose(tabToClose) {
       if (tabToClose.data.seved) {
         this.tabs = this.tabs.filter((tab) => tab != tabToClose);
-        this.selectTab({ id: "main" });
-        this.dataPage = {};
+        this.selectedTab == tabToClose.id
+          ? this.selectTab({ id: "main" })
+          : false;
       } else {
         let res = confirm(
           "Заявка не была сохранена на сервере, вы действительно хотите закрыйть ее? В случае закрытия данные будут утеряны."
@@ -307,6 +305,7 @@ export default {
         if (res) {
           this.tabs = this.tabs.filter((tab) => tab != tabToClose);
           this.dataPage = {};
+          this.fetchUpdateList(tabToClose.id);
           this.selectTab({ id: "main" });
         } else {
           return false;
@@ -474,6 +473,7 @@ export default {
     selectTab(tab) {
       this.selectedTab = tab.id;
       if (this.selectedTab == "main") {
+        this.dataPage = {};
         this.displayMain = true;
         this.displayApp = false;
         this.$router.push({ name: "Main" });
@@ -493,17 +493,22 @@ export default {
   created() {
     if (localStorage.user) {
       this.user = JSON.parse(localStorage.user);
-      if (localStorage.tabs) {
-        let t = this.tabs;
-        let tabs = JSON.parse(localStorage.tabs);
-        tabs.forEach((i) => {
-          t.push(i);
-        });
-      }
     }
-
+  },
+  mounted() {
+    if (this.user.opened_tabs.length) {
+      let t = this.tabs;
+      let tabs = this.user.opened_tabs;
+      tabs.forEach((i) => {
+        t.push(i);
+      });
+    }
     if (this.$route.name == "App") {
-      this.selectTab(this.tabs.filter((i) => i.id == this.$route.params.id)[0]);
+      if (this.tabs.length) {
+        var tab = this.tabs.filter((i) => i.id == this.$route.params.id)[0];
+        console.log(tab);
+        this.selectTab(tab);
+      }
     }
   },
   computed: {
@@ -519,7 +524,7 @@ export default {
     tabs: {
       deep: true,
       handler() {
-        localStorage.tabs = JSON.stringify(this.tabs);
+        this.fetchTabs(this.tabs);
       },
     },
   },

@@ -1,0 +1,194 @@
+.statistics {
+  height: 100vh;
+  width: 80%;
+  overflow: auto;
+  &_nav {
+    padding: 1vh 0 0;
+    display: flex;
+    justify-content: center;
+    &__calendar {
+      border: 1px solid #000;
+      transition: all 0.3s;
+    }
+  }
+  &_main {
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: flex-start;
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+  }
+  &_body {
+    box-sizing: border-box;
+    &.general {
+      width: 35%;
+    }
+    &.list {
+      width: 65%;
+      height: 85%;
+    }
+    &__all {
+      width: 90%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+  }
+  &_item {
+    &__active {
+      background: #c2c2c2;
+    }
+    &__block {
+      user-select: none;
+      cursor: default;
+      box-sizing: border-box;
+      width: 100%;
+      display: flex;
+      padding: 0 10px;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #000;
+      height: 8vh;
+    }
+    &__heading {
+      margin: 10px 0;
+    }
+    &__info {
+      margin: 10px 0;
+    }
+  }
+  &_heading {
+    width: 100%;
+    text-align: center;
+  }
+  &_table {
+    margin: 0 auto;
+    width: 90%;
+    max-height: 90%;
+    overflow: auto;
+    &__ceil {
+      box-sizing: border-box;
+      width: 33%;
+      padding: 5px;
+      height: calc(1.5rem + 10px);
+      text-align: center;
+      border-right: 1px solid #000;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+    &__row {
+      transition: all 0.3s;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      align-content: flex-start;
+      width: 100%;
+      box-sizing: border-box;
+      border-bottom: 1px solid #000;
+
+      &:first-child {
+        border-top: 1px solid #000;
+        margin: 0;
+      }
+      &:nth-child(2n-2) {
+        background: #dbdbdb;
+      }
+      .ceil {
+        &__name {
+          width: 34%;
+          border-left: 1px solid #000;
+        }
+        &__table {
+          display: none;
+        }
+      }
+      &.row__nextshow {
+        border-top: 1px solid #000;
+      }
+      &.row__show {
+        border-top: 1px solid #000;
+        margin: 10px 0;
+        .statistics_table__ceil {
+          width: 100%;
+        }
+        display: grid;
+        grid-template: "name info button" "name table table";
+        grid-template-columns: 34% 33% 33%;
+        .ceil {
+          &__name {
+            grid-area: name;
+            align-items: center;
+            float: left;
+            height: 100%;
+          }
+          &__info {
+            grid-area: info;
+          }
+          &__button {
+            grid-area: button;
+          }
+          &__table {
+            display: block;
+            grid-area: table;
+            height: auto;
+            padding: 0;
+            .table {
+              &_body {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+              }
+              &_row {
+                width: 100%;
+                display: flex;
+                border-top: 1px solid #000;
+              }
+              &_ceil {
+                box-sizing: border-box;
+                height: calc(1.5rem + 10px);
+                padding: 5px;
+                width: 55%;
+                display: flex;
+                justify-content: center;
+                align-items: flex-end;
+                &:nth-child(2n-1) {
+                  border-right: 1px solid #000;
+                }
+              }
+            }
+          }
+        }
+      }
+      &_minimal {
+        .ceil {
+          &__name {
+            width: 65%;
+            border-left: 1px solid #000;
+          }
+          &__info {
+            width: 35%;
+          }
+        }
+      }
+    }
+  }
+  .hide {
+    display: none;
+    table {
+      border-collapse: collapse;
+      th,
+      td {
+        border: 1px solid;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+      }
+    }
+  }
+}
