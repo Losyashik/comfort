@@ -311,7 +311,7 @@ export default {
           return false;
         }
       }
-      this.selectedTab == tabToClose.no
+      this.selectedTab == tabToClose.id
         ? this.selectTab({ id: "main" })
         : false;
     },
