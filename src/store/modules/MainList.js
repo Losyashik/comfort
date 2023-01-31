@@ -1,19 +1,19 @@
 import store from "..";
 import api from "./../../api";
 
-async function scan(ctx) {
-  const resp = await api.get("mainList.php?edit=1");
-  if (resp.status == "200") {
-    const list = resp.data;
+// async function scan(ctx) {
+//   const resp = await api.get("mainList.php?edit=1");
+//   if (resp.status == "200") {
+//     const list = resp.data;/
 
-    if (list["update"]) {
-      ctx.commit("SELECTIVE_UPDATE_LIST", list.list);
-      ctx.commit("SORTING_MAIN", ctx.state.sortData);
-      ctx.commit("SORTING_BY_COLUMN", ctx.state.sortByColumnDate);
-    }
-  }
-  scan(ctx);
-}
+//     if (list["update"]) {
+//       ctx.commit("SELECTIVE_UPDATE_LIST", list.list);
+//       ctx.commit("SORTING_MAIN", ctx.state.sortData);
+//       ctx.commit("SORTING_BY_COLUMN", ctx.state.sortByColumnDate);
+//     }
+//   }
+//   scan(ctx);
+// }
 
 export default {
   state: {
@@ -319,6 +319,12 @@ export default {
     getStatuses(ctx) {
       ctx.commit("UPDATE_STATUSES", ctx.rootState.librares.statuses);
     },
+    async fetchUpdateList(ctx, id) {
+      const resp = await api.get("mainList.php?edit=" + id);
+      ctx.commit("SELECTIVE_UPDATE_LIST", resp.data.list);
+      ctx.commit("SORTING_MAIN", ctx.state.sortData);
+      ctx.commit("SORTING_BY_COLUMN", ctx.state.sortByColumnDate);
+    },
     async fetchAllList(ctx, limit = true) {
       const list = (await api.get("mainList.php?limit=100")).data;
       ctx.commit("UPDATE_LIST", list.list);
@@ -330,7 +336,7 @@ export default {
         ctx.commit("SORTING_MAIN", ctx.state.sortData);
         ctx.commit("SORTING_BY_COLUMN", ctx.state.sortByColumnDate);
       }
-      setTimeout(scan(ctx), 70000);
+      // setTimeout(scan(ctx), 70000);
     },
   },
 };
