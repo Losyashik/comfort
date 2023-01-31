@@ -1023,12 +1023,11 @@ export default {
         var tab = this.$parent.tabs.filter((tab) => tab.id == "new")[0];
         tab.id = text.data.dataPage.id;
         tab.data = text.data.dataPage;
+        this.$parent.selectTab(tab);
         this.load = false;
-        console.log(this.parent.parent);
         this.$ws.send(
           JSON.stringify({ type: "application", data: text.data.dataPage.id })
         );
-        this.$parent.selectTab(tab);
       } else {
         console.error(text.data.text);
       }
@@ -1061,7 +1060,6 @@ export default {
       if (text.status == 200) {
         this.data = text.data.dataPage;
         this.data.number = this.$acceptNumber(this.data.number);
-        console.log(this.$parent.$parent.$parent.ws);
         this.$ws.send(
           JSON.stringify({ type: "application", data: this.data.id })
         );

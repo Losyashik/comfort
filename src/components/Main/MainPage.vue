@@ -58,8 +58,7 @@
       <router-link v-if="schedules()" to="/schedules">Графики</router-link>
     </nav>
     <div class="leftbar" :class="{ show: focus, hidden: displayMain }">
-      <!-- 
-      <button
+      <!-- <button
         id="seeing_catalog"
         @click="
           prevCatalog = true;
@@ -506,7 +505,6 @@ export default {
     if (this.$route.name == "App") {
       if (this.tabs.length) {
         var tab = this.tabs.filter((i) => i.id == this.$route.params.id)[0];
-        console.log(tab);
         this.selectTab(tab);
       }
     }
