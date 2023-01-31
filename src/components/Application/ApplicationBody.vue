@@ -1060,11 +1060,12 @@ export default {
       if (text.status == 200) {
         this.data = text.data.dataPage;
         this.data.number = this.$acceptNumber(this.data.number);
+        this.watch = true;
+        this.load = false;
         this.$ws.send(
           JSON.stringify({ type: "application", data: this.data.id })
         );
-        this.watch = true;
-        this.load = false;
+        
       } else {
         console.error(text.data.text);
       }
