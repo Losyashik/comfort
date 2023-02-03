@@ -35,8 +35,8 @@ export default {
           break;
 
         default:
-          this.$ws = null;
-          this.$ws = new WebSocket("ws://localhost:81");
+          console.log("closed websocked connect");
+          window.location.reload();
           break;
       }
     };
