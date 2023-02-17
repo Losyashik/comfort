@@ -5,6 +5,7 @@
         <option value="street">Поиск по улице</option>
         <option value="number">Поиск по номеру</option>
         <option value="no_order_1c">Поиск по номеру 1С</option>
+        <option value="id">Поиск по № заявки</option>
         <option value="nick">Поиск по нику</option>
       </select>
       <input

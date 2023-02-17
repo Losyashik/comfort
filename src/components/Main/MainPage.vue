@@ -294,6 +294,7 @@ export default {
     tabClose(tabToClose) {
       if (tabToClose.data.seved) {
         this.tabs = this.tabs.filter((tab) => tab != tabToClose);
+        this.fetchTabs(this.tabs);
         this.selectedTab == tabToClose.id
           ? this.selectTab({ id: "main" })
           : false;
@@ -303,6 +304,7 @@ export default {
         );
         if (res) {
           this.tabs = this.tabs.filter((tab) => tab != tabToClose);
+          this.fetchTabs(this.tabs);
           this.dataPage = {};
           this.fetchUpdateList(tabToClose.id);
           this.selectTab({ id: "main" });
@@ -465,11 +467,13 @@ export default {
           return false;
         } else {
           this.tabs.push(tab);
+          this.fetchTabs(this.tabs);
           this.selectTab(tab);
         }
       else this.selectTab(tab);
     },
     selectTab(tab) {
+      console.log(tab.id);
       this.selectedTab = tab.id;
       if (this.selectedTab == "main") {
         this.dataPage = {};
@@ -477,15 +481,12 @@ export default {
         this.displayApp = false;
         this.$router.push({ name: "Main" });
       } else {
-        if (
-          (this.$route.name == "App" && this.$route.params.id != tab.id) ||
-          this.$route.name != "App"
-        ) {
-          this.displayMain = false;
-          this.displayApp = true;
+        console.log(tab);
+        this.displayMain = false;
+        this.displayApp = true;
+        this.dataPage = tab.data;
+        if (this.$route.name != "App" || this.$route.params.id != tab.id)
           this.$router.push({ name: "App", params: { id: tab.id } });
-          this.dataPage = tab.data;
-        }
       }
     },
   },
@@ -501,10 +502,14 @@ export default {
       tabs.forEach((i) => {
         t.push(i);
       });
+      this.fetchTabs(this.tabs);
     }
     if (this.$route.name == "App") {
       if (this.tabs.length) {
+        console.log(this.tabs.filter((i) => i.id == this.$route.params.id));
         var tab = this.tabs.filter((i) => i.id == this.$route.params.id)[0];
+        console.log(this.$route.params.id);
+
         this.selectTab(tab);
       }
     }
@@ -517,14 +522,6 @@ export default {
       "GET_PAYMENT_NAME",
       "GET_STATUS_NAME",
     ]),
-  },
-  watch: {
-    tabs: {
-      deep: true,
-      handler() {
-        this.fetchTabs(this.tabs);
-      },
-    },
   },
 };
 </script>

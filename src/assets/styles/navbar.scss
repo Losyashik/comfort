@@ -26,9 +26,10 @@
   &.hidden:hover {
     .sorting {
       display: block;
+      
     }
     z-index: 10;
-    position: absolute;
+    position: fixed;
     left: 0;
     width: 23vw;
     overflow-y: auto;
@@ -66,7 +67,7 @@ a {
   text-decoration: none;
 }
 .menu {
-  position: absolute;
+  position: fixed;
   z-index: 10;
   top: 36px;
   right: 0;

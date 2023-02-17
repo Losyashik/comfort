@@ -21,6 +21,9 @@ import PersonalBody from "./../components/Scripts/PersonalBody";
 import StatisticsBody from "./../components/AdminPanel/statistics/StatisticsBody";
 
 async function loadData() {
+  if (!store.state.user != {} && localStorage.user) {
+    store.commit("addUser", JSON.parse(localStorage.user));
+  }
   if (
     !store.state.librares.cites.length &&
     !store.state.librares.statuses.length &&
@@ -28,14 +31,12 @@ async function loadData() {
     !store.state.librares.toc.length
   ) {
     await store.dispatch("getAllLists");
-    store.dispatch("getStatuses");
+    store.dispatch("getLists");
   }
   if (!store.state.MainList.allList.length) {
     await store.dispatch("fetchAllList");
   }
-  if (!store.state.user != {} && localStorage.user) {
-    store.commit("addUser", JSON.parse(localStorage.user));
-  }
+
   if (!store.state.CatalogList.catalog.length) {
     await store.dispatch("fetchCatalog");
   }

@@ -21,6 +21,7 @@ export default {
     list: [],
     sortData: {},
     statuses: [],
+    cites: [],
     sortByColumnDate: {},
   },
   getters: {
@@ -42,15 +43,32 @@ export default {
             });
           } else if (order == "up") {
             state.list.sort((a, b) => {
-              if (a.city > b.city) return 1;
-              if (a.city == b.city) return 0;
-              if (a.city < b.city) return -1;
+              if (a.city == null) return -1;
+              if (b.city == null) return 1;
+              var textA = state.cites
+                .filter((item) => item.id == a.city)[0]
+                .name.toLowerCase();
+              var textB = state.cites
+                .filter((item) => item.id == b.city)[0]
+                .name.toLowerCase();
+              if (textA > textB) return 1;
+              if (textA == textB) return 0;
+              if (textA < textB) return -1;
             });
           } else if (order == "down") {
             state.list.sort((a, b) => {
-              if (a.city < b.city) return 1;
-              if (a.city == b.city) return 0;
-              if (a.city > b.city) return -1;
+              if (a.city == null) return 1;
+              if (b.city == null) return -1;
+              var textA = state.cites
+                .filter((item) => item.id == a.city)[0]
+                .name.toLowerCase();
+              var textB = state.cites
+                .filter((item) => item.id == b.city)[0]
+                .name.toLowerCase();
+
+              if (textA < textB) return 1;
+              if (textA == textB) return 0;
+              if (textA > textB) return -1;
             });
           }
 
@@ -284,6 +302,10 @@ export default {
                 ? item.no_order_1c.includes(data.text.toLowerCase())
                 : false
             );
+          } else if (data.type == "id") {
+            list = list.filter((item) =>
+              item.id ? item.id.includes(data.text.toLowerCase()) : false
+            );
           }
         }
 
@@ -298,6 +320,9 @@ export default {
     },
     UPDATE_STATUSES(state, data) {
       state.statuses = data;
+    },
+    UPDATE_CITES(state, data) {
+      state.cites = data;
     },
     UPDATE_LIST(state, data) {
       state.allList = data;
@@ -316,8 +341,9 @@ export default {
     },
   },
   actions: {
-    getStatuses(ctx) {
+    getLists(ctx) {
       ctx.commit("UPDATE_STATUSES", ctx.rootState.librares.statuses);
+      ctx.commit("UPDATE_CITES", ctx.rootState.librares.cites);
     },
     async fetchUpdateList(ctx, id) {
       const resp = await api.get("mainList.php?edit=" + id);

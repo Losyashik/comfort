@@ -55,13 +55,8 @@ export default createStore({
         ctx.commit("writeError", dataUser.data);
       }
     },
-    async fetchTabs(ctx, data) {
-      // let response = await axios.post("user.php", {
-      //   tabs: data,
-      // });
-      // if (response.status == "201") {
+    fetchTabs(ctx, data) {
       ctx.commit("updateTabs", data);
-      // }
     },
     exit(ctx) {
       axios.get("autorization.php?exit=1");
