@@ -7,7 +7,7 @@ require_once "./vendor/autoload.php";
 
 
 
-$wsWorker = new Worker('websocket://server:81/');
+$wsWorker = new Worker('websocket://0.0.0.0:81/');
 $wsWorker->count = 5;
 
 $wsWorker->onConnect = function ($connect) use ($wsWorker) {
