@@ -1,4 +1,4 @@
-export default createStore({
+export default {
   state: {
     dialogs: [],
     openedDialog: {},
@@ -13,4 +13,4 @@ export default createStore({
   },
   mutations: {},
   actions: {},
-});
+};

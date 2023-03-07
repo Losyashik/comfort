@@ -1,6 +1,9 @@
 <?php
 include("./librares/connect.php");
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 
 
 class User
@@ -29,7 +32,9 @@ class User
                             $data['admin'] = 1;
                         }
                         $data['rights'][] = $elem['right'];
-                        session_start();
+                        if (session_status() === PHP_SESSION_NONE) {
+                            session_start();
+                        }
                         $_SESSION['user'] = $data;
                     }
                 } else {

@@ -1,0 +1,147 @@
+{
+    "id": true,
+    "no_order_1c": true,
+    "payment_method": true,
+    "nick": true,
+    "full_name": true,
+    "id_connection": "!!!",
+    "id_city": "!!!",
+    "street": true,
+    "house": true,
+    "corpus": true,
+    "entrance": true,
+    "flat": true,
+    "number": true,
+    "id_status":  "!!!",
+    "note": true,
+    "sum": true,
+    "weight": true,
+    "purchase": true,
+    "square": true,
+    "measuring_date": true,
+    "measuring_time": true,
+    "delivery_date": true,
+    "delivery_time": true,
+    "expectation": true,
+    "productList": {
+        "linoleum": [
+            {
+                "key": 1,
+                "id": "1840",
+                "id_linoleum": "1",
+                "product": " Tarkett (Таркетт) Stimul Rigard 4",
+                "ei": "м<sup>2</sup>",
+                "weight": "1.4",
+                "width": {
+                    "select": "1.5",
+                    "all": [
+                        "1.5",
+                        "2",
+                        "2.5",
+                        "3",
+                        "3.5",
+                        "4"
+                    ]
+                },
+                "len": "3.6",
+                "price": {
+                    "fact": "520",
+                    "rrc": {
+                        "all": {
+                            "p0_10": 0,
+                            "p11_15": 0,
+                            "p16_20": 0,
+                            "p21_30": 0,
+                            "p31_40": 0,
+                            "p41_55": 0,
+                            "p56_70": 0
+                        },
+                        "selected": 0
+                    }
+                },
+                "providers": [
+                    {
+                        "id": "1",
+                        "name": "Фрб"
+                    },
+                    {
+                        "id": "2",
+                        "name": "Упр"
+                    }
+                ],
+                "purchase_price_list": [
+                    {
+                        "purchase_price": "0.00",
+                        "id_provider": "1",
+                        "width": "1.5"
+                    },
+                    {
+                        "purchase_price": "0.00",
+                        "id_provider": "1",
+                        "width": "2"
+                    },
+                    {
+                        "purchase_price": "0.00",
+                        "id_provider": "1",
+                        "width": "2.5"
+                    },
+                    {
+                        "purchase_price": "0.00",
+                        "id_provider": "1",
+                        "width": "3"
+                    },
+                    {
+                        "purchase_price": "0.00",
+                        "id_provider": "1",
+                        "width": "3.5"
+                    },
+                    {
+                        "purchase_price": "0.00",
+                        "id_provider": "1",
+                        "width": "4"
+                    },
+                    {
+                        "purchase_price": "0.00",
+                        "id_provider": "2",
+                        "width": "1.5"
+                    },
+                    {
+                        "purchase_price": "0.00",
+                        "id_provider": "2",
+                        "width": "2"
+                    },
+                    {
+                        "purchase_price": "0.00",
+                        "id_provider": "2",
+                        "width": "2.5"
+                    },
+                    {
+                        "purchase_price": "0.00",
+                        "id_provider": "2",
+                        "width": "3"
+                    },
+                    {
+                        "purchase_price": "0.00",
+                        "id_provider": "2",
+                        "width": "3.5"
+                    },
+                    {
+                        "purchase_price": "0.00",
+                        "id_provider": "2",
+                        "width": "4"
+                    }
+                ],
+                "provider": "1",
+                "purchase_price": "250.00"
+            }
+        ],
+        "plinth": [],
+        "accessories": [],
+        "doorstep": [],
+        "related": []
+    },
+
+    "lastKey": 1,
+    "seved": true,
+    "update": true
+}

@@ -314,7 +314,12 @@ export default {
         } else state.list = [{ text: "Ничего не найдено" }];
       } else
         state.list = state.allList.filter(
-          (item) => item.status != 7 && item.status != 8
+          (item) =>
+            item.status != 7 &&
+            item.status != 8 &&
+            item.status != 10 &&
+            item.status != 11 &&
+            item.status != 3
         );
       store.commit("SORTING_BY_COLUMN", state.sortByColumnDate);
     },
