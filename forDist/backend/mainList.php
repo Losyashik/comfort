@@ -29,15 +29,15 @@ if (!in_array(13, $rights)) {
   } elseif (isset($_GET['edit'])) {
     $orderList = $connect->getData("SELECT * FROM orders WHERE id = " . $_GET['edit']);
   } else {
-    $orderList = $connect->getData("SELECT * FROM orders WHERE id_status in (1,2,3,4$prohibition) AND id in (SELECT id_order FROM order_history WHERE id_user = " . $_SESSION['user']['id'] . ") ORDER BY id DESC");
+    $orderList = $connect->getData("SELECT * FROM orders WHERE id_status in (1,2,3,4,8$prohibition) AND id in (SELECT id_order FROM order_history WHERE id_user = " . $_SESSION['user']['id'] . ") ORDER BY id DESC");
   }
 } else {
   if (isset($_GET['limit'])) {
     $orderList = $connect->getData("SELECT * FROM orders WHERE id_status in (1,2,3,4$prohibition) AND NOT (id_status IN (7,8,11)) ORDER BY id DESC LIMIT 50");
   } elseif (isset($_GET['edit'])) {
-    $orderList = $connect->getData("SELECT * FROM orders WHERE id_status in (1,2,3,4$prohibition) AND id = " . $_GET['edit']);
+    $orderList = $connect->getData("SELECT * FROM orders WHERE id_status in (1,2,3,4,8$prohibition) AND id = " . $_GET['edit']);
   } else {
-    $orderList = $connect->getData("SELECT * FROM orders WHERE id_status in (1,2,3,4$prohibition) ORDER BY id DESC");
+    $orderList = $connect->getData("SELECT * FROM orders WHERE id_status in (1,2,3,4,8$prohibition) ORDER BY id DESC");
   }
 }
 $_SESSION["last_update"] = time();
