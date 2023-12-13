@@ -29,20 +29,36 @@
             <div class="info">
               <div class="contacts">
                 <ul>
-                  <li>Город: {{ item.city }}</li>
-                  <li>Адрес: {{ item.addres }}</li>
                   <li v-if="item.name">Имя: {{ item.name }}</li>
                   <li v-else-if="item.nick">Ник: {{ item.nick }}</li>
+                  <li>Город: {{ item.city }}</li>
+                  <li>Адрес: {{ item.addres }}</li>
                   <li>Номер: {{ item.number }}</li>
-                  <li>№ заявки: {{ item.id }}</li>
+                  <!-- <li>№ заявки: {{ item.id }}</li> -->
                 </ul>
               </div>
-              <div class="note" v-if="item.note">
+              <div
+                class="contacts"
+                v-if="$route.params.schedules == 'delivery'"
+              >
+                <ul>
+                  <li>№ заявки: {{ item.id }}</li>
+                  <li>№1C: {{ item.no_order_1c }}</li>
+                  <li>
+                    Способ оплаты: {{ getPaymentMethod(item.payment_method) }}
+                  </li>
+                  <li>Сумма: {{ item.sum }}</li>
+                </ul>
+              </div>
+              <div
+                class="note"
+                v-if="item.note && $route.params.schedules == 'measuring'"
+              >
                 <h5>Заметка</h5>
                 <pre>{{ item.note }}</pre>
               </div>
             </div>
-            <div class="time">
+            <div class="time" v-if="$route.params.schedules == 'measuring'">
               <input type="time" v-model="item.time" /><span>{{
                 getTime(item.time)
               }}</span>
@@ -209,7 +225,7 @@
   </div>
 </template>
 <script>
-import { mapMutations } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 function number_to_string(_number) {
   var _arr_numbers = new Array();
   _arr_numbers[1] = new Array(
@@ -352,10 +368,16 @@ export default {
       list: [],
     };
   },
+  computed: {
+    ...mapGetters({ payments: "GET_PAYMENTS" }),
+  },
   methods: {
     ...mapMutations["updateModal"],
     priceToText(price) {
       return number_to_string(price);
+    },
+    getPaymentMethod(id) {
+      return this.payments.filter((i) => i.id == id)[0].short_name;
     },
     drag(e) {
       const getNextItem = (cursorPosition, currentElement) => {

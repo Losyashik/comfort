@@ -201,7 +201,7 @@
         <div
           v-else-if="
             $parent.user.rights.includes('12') &&
-            (data.status == 6 || data.status == 7)
+            [5, 6, 7].includes(Number(data.status))
           "
           class="block"
         >

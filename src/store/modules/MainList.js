@@ -177,36 +177,40 @@ export default {
               let date_a =
                 a.status == 2
                   ? "measuring_date"
-                  : a.status == 5 || a.status == 6
+                  : [5, 6, 7].includes(Number(a.status))
                   ? "delivery_date"
                   : "expectation";
               let date_b =
                 b.status == 2
                   ? "measuring_date"
-                  : b.status == 5 || b.status == 6
+                  : [5, 6, 7].includes(Number(b.status))
                   ? "delivery_date"
                   : "expectation";
-              if (a[date_a] > b[date_b] || a[date_a] == undefined) return 1;
-              if (a[date_a] == b[date_b]) return 0;
-              if (a[date_a] < b[date_b] || b[date_a] == undefined) return -1;
+              if (a[date_a] == undefined || a[date_a] == null) {
+                return 1;
+              } else if (b[date_a] == undefined || b[date_a] == null) {
+                return -1;
+              } else return Date.parse(a[date_a]) - Date.parse(b[date_b]);
             });
           } else if (order == "down") {
             state.list.sort((a, b) => {
               let date_a =
                 a.status == 2
                   ? "measuring_date"
-                  : a.status == 5 || a.status == 6
+                  : [5, 6, 7].includes(Number(a.status))
                   ? "delivery_date"
                   : "expectation";
               let date_b =
                 b.status == 2
                   ? "measuring_date"
-                  : b.status == 5 || b.status == 6
+                  : [5, 6, 7].includes(Number(b.status))
                   ? "delivery_date"
                   : "expectation";
-              if (a[date_a] < b[date_b] || b[date_b] == undefined) return 1;
-              if (a[date_a] == b[date_b]) return 0;
-              if (a[date_a] > b[date_b] || b[date_b] == undefined) return -1;
+              if (a[date_a] == undefined || a[date_a] == null) {
+                return 1;
+              } else if (b[date_a] == undefined || b[date_a] == null) {
+                return -1;
+              } else return Date.parse(b[date_b]) - Date.parse(a[date_a]);
             });
           }
 
@@ -245,12 +249,16 @@ export default {
             }
             if (data.select_date.indexOf("2") != -1) {
               list = list.filter(
-                (item) => item.status == 5 && item.delivery_date != null
+                (item) =>
+                  item.status == 6 ||
+                  (item.status == 10 && item.delivery_date != null)
               );
             }
             if (data.select_date.indexOf("3") != -1) {
               list = list.filter(
-                (item) => item.status == 5 && item.delivery_date == null
+                (item) =>
+                  item.status == 6 ||
+                  (item.status == 10 && item.delivery_date == null)
               );
             }
           }
@@ -260,10 +268,10 @@ export default {
                 let date =
                   item.status == 2
                     ? "measuring_date"
-                    : item.status == 5 || item.status == 6
+                    : item.status == 10 || item.status == 6 || item.status == 7
                     ? "delivery_date"
                     : "expectation";
-                return item[date] == data.date.start;
+                return Date.parse(item[date]) == Date.parse(data.date.start);
               });
             }
             if (data.date.end) {
@@ -271,7 +279,7 @@ export default {
                 let date =
                   item.status == 2
                     ? "measuring_date"
-                    : item.status == 5 || item.status == 6
+                    : item.status == 10 || item.status == 6 || item.status == 7
                     ? "delivery_date"
                     : "expectation";
                 return (
@@ -284,14 +292,15 @@ export default {
           }
         }
         if (data.opiration.indexOf("search") != -1) {
+          console.log(data);
           if (data.type == "nick") {
             list = list.filter((item) =>
               item.nick.toLowerCase().includes(data.text.toLowerCase())
             );
           } else if (data.type == "number") {
-            list = list.filter((item) =>
-              item.number.toLowerCase().includes(data.text.toLowerCase())
-            );
+            list = list.filter((item) => {
+              return item.number ? item.number.includes(data.text) : false;
+            });
           } else if (data.type == "street") {
             list = list.filter((item) =>
               item.street.toLowerCase().includes(data.text.toLowerCase())

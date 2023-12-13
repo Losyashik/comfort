@@ -145,7 +145,7 @@
                   ? data.measuring_date
                     ? "Замер"
                     : ""
-                  : data.status == 6 || data.status == 7
+                  : [5, 6, 7].includes(Number(data.status))
                   ? data.delivery_date
                     ? "Доставка"
                     : ""
@@ -159,7 +159,7 @@
                     ? data.measuring_date
                       ? 'Замер'
                       : ''
-                    : data.status == 6 || data.status == 7
+                    : [5, 6, 7].includes(Number(data.status))
                     ? data.delivery_date
                       ? 'Доставка'
                       : ''
@@ -174,7 +174,7 @@
               {{
                 data.status == 2
                   ? $getStringDate(data.measuring_date)
-                  : data.status == 6 || data.status == 7
+                  : [5, 6, 7].includes(Number(data.status))
                   ? $getStringDate(data.delivery_date)
                   : $getStringDate(data.expectation)
               }}
@@ -182,7 +182,7 @@
                 v-show="
                   !(data.status == 2
                     ? $getStringDate(data.measuring_date)
-                    : data.status == 6 || data.status == 7
+                    : [5, 6, 7].includes(Number(data.status))
                     ? $getStringDate(data.delivery_date)
                     : $getStringDate(data.expectation))
                 "
@@ -194,7 +194,7 @@
               {{
                 data.status == 2
                   ? $getTime(data.measuring_date, data.measuring_time)
-                  : data.status == 6 || data.status == 7
+                  : [5, 6, 7].includes(Number(data.status))
                   ? $getTime(data.delivery_date, data.delivery_time)
                   : ""
               }}
@@ -202,7 +202,7 @@
                 v-show="
                   !(data.status == 2
                     ? $getTime(data.measuring_date, data.measuring_time)
-                    : data.status == 6 || data.status == 7
+                    : [5, 6, 7].includes(Number(data.status))
                     ? $getTime(data.delivery_date, data.delivery_time)
                     : '')
                 "
