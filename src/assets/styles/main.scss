@@ -92,7 +92,7 @@ main {
     }
 
     tr:nth-child(even){
-      background: var(--medium-light-color);
+      background: var(--light-color);
     }
 
     th {
@@ -238,9 +238,7 @@ main {
           padding: 5px;
           outline: none;
 
-          &:focus {
-            background-color: rgba($color: var(--dark-color-rgb), $alpha: 0.2);
-          }
+          
 
           option {
             height: 100%;
@@ -248,7 +246,9 @@ main {
         }
       }
     }
-
+    select:focus {
+      background-color: rgba($color: var(--dark-color-rgb), $alpha: 0.2);
+    }
     &.addres {
       div.addres_input {
         display: flex;
