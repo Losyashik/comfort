@@ -17,7 +17,7 @@
         background: var(--light-color);
 
       }
-      &:hover {
+      &:not(.main-page__table-heading):hover {
         background: var(--dark-color);
         color: #fff;
       }
@@ -44,7 +44,7 @@
     &-td {
       font-size: 14pt;
       padding: 5px 15px;
-      border: 1px solid;
+      border: 1px solid #000;
       
 
       pre {
