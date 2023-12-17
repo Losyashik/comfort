@@ -3,6 +3,9 @@
     grid-area: topbar;
     display: grid;
     grid-template-columns: 1fr 300px;
+    background: var(--medium-light-color);
+    box-sizing: border-box;
+    height: 50px;
 
     &__ul {
         display: flex;
@@ -12,15 +15,11 @@
         padding: 0;
         height: 100%;
         width: 100%;
-    }
-
-    &__li {
-        margin: 0;
-        padding: 0;
-        height: 100%;
+        box-sizing: border-box;
     }
 
     &__link {
+        background: var(--medium-color);
         box-sizing: border-box;
         text-decoration: none;
         color: #000;
@@ -29,17 +28,14 @@
         justify-content: space-between;
         height: 100%;
         min-width: 200px;
-        padding: 0 15px;
+        padding: 0 10px;
 
 
-        border: {
-            left: 1px solid;
-            right: 1px solid;
-        }
+        border-right: 1px solid;
 
         &-static {
-            width: 50px;
-            height: 50px;
+            width: 49px;
+            height: 100%;
             padding: 8px;
             min-width: 0;
 
@@ -53,14 +49,36 @@
         .close {
             width: 15px;
             height: 15px;
+            resize: none;
         }
 
         .text {
             width: 1fr;
             font-size: 1.1em;
+            resize: none;
         }
 
     }
+
+    &__li {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        box-sizing: border-box;
+
+        &:last-child {
+            height: auto;
+            margin-left: 10px;
+            .topbar__link {
+                border-right: none;
+                border-radius: 70px;
+                width: 30px;
+                height: 30px;
+            }
+        }
+    }
+
+
 
     &__user-data {
         box-sizing: border-box;

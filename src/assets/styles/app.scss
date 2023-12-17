@@ -1,6 +1,8 @@
+@import url(./variables.css);
 body {
     margin: 0;
     padding: 0;
+    overflow: hidden;
   }
   * {
     font-size: 12pt;
@@ -19,7 +21,18 @@ body {
     grid-area: body;
     height: 100%;
     width:100%;
-    overflow: hidden;
-    // overflow-y: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     box-sizing: border-box;
+}
+#body::-webkit-scrollbar{
+  width: 8px;
+}
+#body::-webkit-scrollbar-track{
+  background: var(--medium-color);
+}
+#body::-webkit-scrollbar-thumb{
+  background: var(--dark-color);
+  border-radius: 20px;
+  border: 1px solid var(--medium-color);
 }
