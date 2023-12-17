@@ -25,7 +25,7 @@ foreach ($rights as $right) {
 
 if (!in_array(13, $rights)) {
   if (isset($_GET['limit'])) {
-    $orderList = $connect->getData("SELECT * FROM orders WHERE id_status in (1,2,3,4$prohibition) AND id in (SELECT id_order FROM order_history WHERE id_user = " . $_SESSION['user']['id'] . ") AND NOT (id_status IN (7,8,11)) ORDER BY id DESC LIMIT 50");
+    $orderList = $connect->getData("SELECT * FROM orders WHERE id_status in (1,2,3,4$prohibition) AND id in (SELECT id_order FROM order_history WHERE id_user = " . $_SESSION['user']['id'] . ") AND NOT (id_status IN (7,8,11)) ORDER BY id DESC LIMIT 200");
   } elseif (isset($_GET['edit'])) {
     $orderList = $connect->getData("SELECT * FROM orders WHERE id = " . $_GET['edit']);
   } else {
@@ -33,7 +33,7 @@ if (!in_array(13, $rights)) {
   }
 } else {
   if (isset($_GET['limit'])) {
-    $orderList = $connect->getData("SELECT * FROM orders WHERE id_status in (1,2,3,4$prohibition) AND NOT (id_status IN (7,8,11)) ORDER BY id DESC LIMIT 50");
+    $orderList = $connect->getData("SELECT * FROM orders WHERE id_status in (1,2,3,4$prohibition) AND NOT (id_status IN (7,8,11)) ORDER BY id DESC LIMIT 200");
   } elseif (isset($_GET['edit'])) {
     $orderList = $connect->getData("SELECT * FROM orders WHERE id_status in (1,2,3,4,8,11$prohibition) AND id = " . $_GET['edit']);
   } else {

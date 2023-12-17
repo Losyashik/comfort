@@ -46,7 +46,7 @@ if (isset($_GET['type'])) {
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
     }
     if ($_GET['type'] == "delivery") {
-        $data = $connect->getData("SELECT `orders`.`id` as `id`, `sum`, `nick`, `orders`.`full_name` as `name`, `number`, `note`,`street`, `order_cites`.`name` as `city`,`house`,`corpus`,`entrance`,`flat` , `delivery_time` as `time` FROM `orders`, `order_cites` WHERE `id_city`=`order_cites`.`id`  AND `delivery_date` = '" . $_GET['date'] . "' ORDER BY `orders`.`delivery_time` IS NULL, `orders`.`delivery_time` ASC");
+        $data = $connect->getData("SELECT `orders`.`id` as `id`,`payment_method`,`no_order_1c`, `sum`, `nick`, `orders`.`full_name` as `name`, `number`, `note`,`street`, `order_cites`.`name` as `city`,`house`,`corpus`,`entrance`,`flat` , `delivery_time` as `time` FROM `orders`, `order_cites` WHERE `id_city`=`order_cites`.`id`  AND `delivery_date` = '" . $_GET['date'] . "' ORDER BY `orders`.`delivery_time` IS NULL, `orders`.`delivery_time` ASC");
         foreach ($data as $key => $elem) {
             $addres = "";
             if ($elem['street'] != "") {
