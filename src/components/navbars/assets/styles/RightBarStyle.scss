@@ -1,0 +1,32 @@
+.rightbar {
+    width: 100%;
+    box-sizing: border-box;
+    grid-area: rightbar;
+    border-left: 1px solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &__ul {
+        display: flex;
+        flex-direction: column;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    &__item{
+        width: 100%;
+    }
+    &__link{
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+        padding: 8px;
+        img{
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
+}
