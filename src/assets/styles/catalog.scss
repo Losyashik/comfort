@@ -17,7 +17,7 @@
   margin: 0 0 5px;
   top: 0;
   z-index: 20;
-  background-color: darkgrey;
+  background-color: var(--medium-color);
   position: sticky;
   .close_box {
     margin-right: 0.5vw;
@@ -41,7 +41,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: darkgrey;
+      background-color: var(--medium-color);
       cursor: pointer;
       user-select: none;
       &:first-child {
@@ -81,7 +81,7 @@
       width: 18%;
       position: fixed;
       overflow: auto;
-      background-color: #e7e7e7;
+      background-color: var(--medium-color);
       height: calc(85vh - 5px);
     }
   }

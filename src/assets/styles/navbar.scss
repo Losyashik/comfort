@@ -2,54 +2,65 @@
   width: 5px;
   height: 5px;
 }
+
 ::-webkit-scrollbar-track {
   width: 100%;
   border-radius: 20px;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(var(--medium-color-rgb), 0.8);
 }
+
 ::-webkit-scrollbar-thumb {
   width: 4px;
-  background: rgba(0, 0, 0, 1);
+  background: rgba(var(--medium-dark-color-rgb), 0.9);
   border-radius: 20px;
 }
+
 .leftbar {
   grid-area: leftbar;
   width: 100%;
   height: 95vh;
   border-right: 1px solid;
   padding: 0 0 5vh;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(var(--medium-color-rgb), 0.9);
+
   .sorting {
     display: none;
   }
+
   &.show,
   &.hidden:hover {
     .sorting {
       display: block;
-      
+
     }
+
     z-index: 10;
     position: fixed;
     left: 0;
     width: 23vw;
     overflow-y: auto;
   }
+
   .button {
     width: 100%;
     border: none;
     background: none;
+
     &.add {
       width: 80%;
-      border: 1px solid #aaa;
-      background: linear-gradient(#ccc, #aaa);
+      border: 1px solid var(--medium-color);
+      background: linear-gradient(var(--light-color), var(--dark-color));
     }
   }
+
   .select_display {
     border-bottom: 1px solid;
     padding: 0.5vw;
+
     h4 {
       margin: 1vh;
     }
+
     .display_list {
       cursor: pointer;
       width: 28px;
@@ -57,15 +68,18 @@
       padding: 4px;
     }
   }
+
   .sorting {
     padding: 1vh 1vw;
     max-height: 80vh;
   }
 }
+
 a {
   color: #000;
   text-decoration: none;
 }
+
 .menu {
   position: fixed;
   z-index: 10;
@@ -75,8 +89,9 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(0, 0, 0, 0.8);
+  background: var(--dark-color);
   width: 18vw;
+
   a {
     color: #fff;
     display: block;
@@ -87,11 +102,13 @@ a {
     text-align: center;
   }
 }
+
 @media screen and (max-width: 760px) {
   nav {
     .tab {
       .text {
         position: relative;
+
         &::after {
           content: "...";
           display: block;
@@ -106,6 +123,7 @@ a {
     }
   }
 }
+
 @media screen {
   nav {
     width: 100%;
@@ -115,6 +133,7 @@ a {
     .allbar {
       display: flex;
       width: fill-available;
+
       border: {
         top: 1px solid;
         bottom: 1px solid;
@@ -122,6 +141,7 @@ a {
         right: none;
       }
     }
+
     .tab {
       width: fill-available;
       max-width: 20%;
@@ -134,34 +154,41 @@ a {
       grid-template: "text close";
       grid-template-columns: 1fr 10px;
       cursor: pointer;
+
       &.interface {
         display: block;
         width: calc(1.5em + 12px);
         border: 1px solid;
         border-left: none;
         padding: 0;
+
         &:first-child {
           border-left: 1px solid;
         }
+
         &:nth-child(5) {
           border-left: 1px solid;
         }
+
         a {
           display: flex;
           justify-content: center;
           align-items: center;
           width: 100%;
           height: 100%;
+
           img {
             display: block;
             width: 70%;
             height: 70%;
           }
         }
+
         a:active {
           box-shadow: inset 0px 0px 0px 0px;
         }
       }
+
       .text {
         line-break: strict;
         display: block;
@@ -170,14 +197,16 @@ a {
         overflow: hidden;
         width: 100%;
       }
+
       .close {
         display: block;
         grid-area: close;
       }
+
       &.selected {
         box-shadow: inset 0px 0px 4px 0px;
-        background-color: #aaa;
-        border-bottom: outset;
+        background-color: var(--medium-color);
+        border-bottom: outset var(--medium-light-color);
       }
     }
   }

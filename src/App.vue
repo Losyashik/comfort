@@ -4,6 +4,7 @@
     <modal-window @close="close()" :obj="modal"></modal-window>
   </div>
 </template>
+<style src="@/assets/styles/variables.css"></style>
 <script>
 import { mapActions } from "vuex";
 
