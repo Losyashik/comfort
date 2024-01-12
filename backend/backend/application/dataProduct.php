@@ -74,7 +74,7 @@ if (isset($_GET['id_linoleum'])) {
 if (isset($_GET['id_plinth'])) {
     $list['key'] = $_GET['key'] + 1;
     $list['id_plinth'] = $_GET['id_plinth'];
-    $list['product'] =  "Плинтуса " . $connect->getData("SELECT name FROM plinth WHERE id = " . $_GET['id_plinth'])[0]['name'];
+    $list['product'] =  "Плинтуса ". $connect->getData("SELECT `plinth_collection`.`name` as `name` FROM plinth_collection,plinth WHERE id_collection = plinth_collection.id and plinth.id = " . $_GET['id_plinth'])[0]['name'] ."(".$connect->getData("SELECT  `heigth` FROM plinth_collection,plinth WHERE id_collection = plinth_collection.id and plinth.id = " . $_GET['id_plinth'])[0]['heigth']."мм) ". $connect->getData("SELECT name FROM plinth WHERE id = " . $_GET['id_plinth'])[0]['name'];
     $list['ei'] = "шт";
     $list['col_vo'] = 0;
     $list['price'] = $connect->getData("SELECT MAX(price) as price FROM plinth_price, plinth_collection, plinth WHERE id_plinth_collection = plinth.id_collection and plinth.id_collection = plinth_collection.id and plinth.id = " . $_GET['id_plinth'])[0]['price'];

@@ -4,8 +4,8 @@ import router from "./router";
 import store from "./store";
 import ModalWindow from "./components/ModalWindow";
 
-let ws = new WebSocket("ws://localhost:81");
 let ws = new WebSocket("ws://server:81");
+// ws = new WebSocket("ws://localhost:81");
 
 const app = createApp(App);
 
