@@ -190,7 +190,7 @@ if (count($orderList) != 0) {
         $list['key'] = $i++;
         $list['id'] = $element['id'];
         $list['id_accessories'] = $element['id_accessories'];
-        $list['product'] = $connect->getData("SELECT concat(plinth_accessories.name,' ',plinth.name) as name FROM plinth_accessories JOIN plinth ON id_plinth=plinth.id WHERE plinth_accessories.id = " . $element['id_accessories'])[0]['name'];
+        $list['product'] = $connect->getData("SELECT concat(plinth_accessories.name,' ',plinth_collection.name,'(',heigth,' мм) ',plinth.name) as name FROM plinth_accessories JOIN plinth ON id_plinth=plinth.id JOIN plinth_collection ON id_collection = plinth_collection.id WHERE plinth_accessories.id = " . $element['id_accessories'])[0]['name'];
         $list['ei'] = "шт";
         $list['col_vo'] = $element['col-vo'];
         $list['price'] = $connect->getData("SELECT MAX(price) as price FROM plinth_accessories_price WHERE id_accessories = " . $element['id_accessories'])[0]['price'];
