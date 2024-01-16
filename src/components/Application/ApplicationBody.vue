@@ -793,7 +793,7 @@
   </main>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import MainLoad from "../MainLoad.vue";
 import api from "../../api";
 
@@ -809,6 +809,7 @@ export default {
     MainLoad,
   },
   methods: {
+    ...mapMutations({ openModal: "setDataModalWindow" }),
     getStringDate(dateString) {
       if (dateString == "" || dateString == undefined) return "настоящее время";
       var options = {
@@ -1031,6 +1032,7 @@ export default {
       } else {
         console.error(text.data.text);
       }
+      this.openModal(text.data.modal);
       this.watch = true;
     },
     async updateApplication() {
@@ -1068,6 +1070,8 @@ export default {
       } else {
         console.error(text.data.text);
       }
+      console.log(text.data);
+      this.openModal(text.data.modal);
     },
   },
   computed: {

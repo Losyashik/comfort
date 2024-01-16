@@ -9,6 +9,11 @@ export default createStore({
   state: {
     user: {},
     error: "",
+    modalWindow: {
+      active: false,
+      text: "",
+      error: false,
+    },
   },
   getters: {
     GET_ERROR(state) {
@@ -22,6 +27,9 @@ export default createStore({
     },
     GET_USER_NAME(state) {
       return state.user.name.split(" ");
+    },
+    GET_MODAL_WINDOW_DATA(state) {
+      return state.modalWindow;
     },
   },
   mutations: {
@@ -40,6 +48,25 @@ export default createStore({
       axios.get("user.php?exit=1");
       state.user = {};
       localStorage.clear("user");
+    },
+    setDataModalWindow(state, data) {
+      state.modalWindow = data;
+      if (state.modalWindow.active && !state.modalWindow.error) {
+        setTimeout(() => {
+          state.modalWindow = {
+            active: false,
+            text: "",
+            error: false,
+          };
+        }, 5000);
+      }
+    },
+    closeModalWindow(state) {
+      state.modalWindow = {
+        active: false,
+        text: "",
+        error: false,
+      };
     },
   },
   actions: {
