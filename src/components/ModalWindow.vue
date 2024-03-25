@@ -1,6 +1,6 @@
 <template>
   <div
-    @click="$emit('close')"
+    @click="close()"
     class="modal"
     :class="{ active: modal.active, error: modal.error }"
   >
@@ -10,11 +10,14 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
+  methods: {
+    ...mapMutations({ close: "closeModalWindow" }),
+  },
   computed: {
-    ...mapGetters({ modal: "GET_MODAL" }),
+    ...mapGetters({ modal: "GET_MODAL_WINDOW_DATA" }),
   },
 };
 </script>

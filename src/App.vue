@@ -12,17 +12,13 @@ export default {
   name: "App",
   data() {
     return {
-      modal: { active: false, text: "", error: false },
+      modal: {},
       userActive: false,
     };
   },
 
   methods: {
     ...mapActions({ updateMain: "fetchUpdateList" }),
-    close() {
-      this.modal.active = false;
-      this.modal.error = false;
-    },
   },
   created() {
     this.$ws.onmessage = (send) => {

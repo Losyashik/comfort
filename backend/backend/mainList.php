@@ -159,7 +159,7 @@ if (count($orderList) != 0) {
         $list['key'] = $i++;
         $list['id'] = $element['id'];
         $list['id_plinth'] = $element['id_plinth'];
-        $list['product'] = "Плинтуса " . $connect->getData("SELECT name FROM plinth WHERE id = " . $element['id_plinth'])[0]['name'];
+        $list['product'] = "Плинтуса " . $connect->getData("SELECT `plinth_collection`.`name` as `name` FROM plinth_collection,plinth WHERE id_collection = plinth_collection.id and plinth.id = " . $element['id_plinth'])[0]['name'] ."(".$connect->getData("SELECT  `heigth` FROM plinth_collection,plinth WHERE id_collection = plinth_collection.id and plinth.id = " . $element['id_plinth'])[0]['heigth']."мм) " . $connect->getData("SELECT name FROM plinth WHERE id = " . $element['id_plinth'])[0]['name'];
         $list['ei'] = "шт";
         $list['col_vo'] = $element['col-vo'];
         $list['price'] = $connect->getData("SELECT MAX(price) as price FROM plinth_price, plinth WHERE plinth.id_collection = plinth_price.id_plinth_collection and plinth.id = " . $element['id_plinth'])[0]['price'];
@@ -190,7 +190,7 @@ if (count($orderList) != 0) {
         $list['key'] = $i++;
         $list['id'] = $element['id'];
         $list['id_accessories'] = $element['id_accessories'];
-        $list['product'] = $connect->getData("SELECT concat(plinth_accessories.name,' ',plinth.name) as name FROM plinth_accessories JOIN plinth ON id_plinth=plinth.id WHERE plinth_accessories.id = " . $element['id_accessories'])[0]['name'];
+        $list['product'] = $connect->getData("SELECT concat(plinth_accessories.name,' ',plinth_collection.name,'(',heigth,' мм) ',plinth.name) as name FROM plinth_accessories JOIN plinth ON id_plinth=plinth.id JOIN plinth_collection ON id_collection = plinth_collection.id WHERE plinth_accessories.id = " . $element['id_accessories'])[0]['name'];
         $list['ei'] = "шт";
         $list['col_vo'] = $element['col-vo'];
         $list['price'] = $connect->getData("SELECT MAX(price) as price FROM plinth_accessories_price WHERE id_accessories = " . $element['id_accessories'])[0]['price'];
