@@ -665,6 +665,7 @@
             <input
               @keydown.prevent.enter="nextInput($event)"
               @focus="$event.target.select()"
+              @change="product.purchase_price = product.final_price"
               tabindex="18"
               type="text"
               v-model="product.final_price"
