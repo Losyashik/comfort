@@ -1,5 +1,5 @@
 <template>
-  <div class="body">
+  <div class="body" :class="{ 'no-leftbar': $route.name == 'App' }">
     <nav class="navbar">
       <div class="tab interface" id="edit_to_list">
         <a @click="selectTab({ id: 'main' })" title="Главня">
