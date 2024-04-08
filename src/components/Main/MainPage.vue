@@ -418,7 +418,7 @@ export default {
             payment_method: 0,
             nick: "",
             full_name: "",
-            connection: 1,
+            connection: "",
             city: "",
             street: "",
             house: "",

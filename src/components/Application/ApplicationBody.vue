@@ -45,13 +45,236 @@
             >Номер заказа 1С</label
           >
         </div>
-        <div class="client-data_row"></div>
-        <div class="client-data_row"></div>
-        <div class="client-data_row"></div>
-        <div class="client-data_row"></div>
-        <div class="client-data_row"></div>
-        <div class="client-data_row"></div>
-        <div class="client-data_row"></div>
+        <div class="client-data_row">
+          <select
+            required
+            class="client-data_select"
+            id="conection"
+            v-if="GET_TOC.length"
+            tabindex="6"
+            v-model="data.connection"
+          >
+            <option disabled></option>
+            <option v-for="elem in GET_TOC" :key="elem.id" :value="elem.id">
+              {{ elem.name }}
+            </option>
+          </select>
+          <label class="client-data_placeholder" for="conection"
+            >Тип связи</label
+          >
+        </div>
+        <div class="client-data_row">
+          <select
+            required
+            class="client-data_select"
+            id="payment"
+            v-if="GET_PAYMENTS.length"
+            v-model="data.payment_method"
+            tabindex="4"
+            type="text"
+          >
+            <option value="" disabled></option>
+            <option
+              v-for="elem in GET_PAYMENTS"
+              :key="elem.id"
+              :value="elem.id"
+            >
+              {{ elem.name }}
+            </option>
+          </select>
+          <label class="client-data_placeholder">Способ оплаты</label>
+        </div>
+        <div class="client-data_row">
+          <div class="client-data_row">
+            <select
+              required
+              class="client-data_select"
+              v-if="GET_CITES.length"
+              tabindex="7"
+              v-model="data.city"
+              id="city"
+            >
+              <option v-for="city in GET_CITES" :key="city.id" :value="city.id">
+                {{ city.name }}
+              </option>
+            </select>
+            <label class="client-data_placeholder">Город</label>
+          </div>
+          <div class="client-data_row">
+            <input
+              required
+              class="client-data_input"
+              tabindex="8"
+              autocomplete="false"
+              v-model="data.street"
+              type="text"
+            />
+            <label class="client-data_placeholder">Улица</label>
+          </div>
+          <div class="client-data_row client-data_row--inside">
+            <div class="client-data_ceil">
+              <input
+                required
+                class="client-data_input"
+                tabindex="9"
+                autocomplete="false"
+                v-model="data.house"
+                type="text"
+              />
+              <label class="client-data_placeholder">Дом</label>
+            </div>
+            <div class="client-data_ceil">
+              <input
+                required
+                class="client-data_input"
+                tabindex="10"
+                autocomplete="false"
+                v-model="data.flat"
+                type="text"
+              /><label class="client-data_placeholder">Квартира</label>
+            </div>
+          </div>
+          <div class="client-data_row client-data_row--inside">
+            <div class="client-data_ceil">
+              <input
+                required
+                class="client-data_input"
+                tabindex="11"
+                autocomplete="false"
+                v-model="data.corpus"
+                type="text"
+              /><label class="client-data_placeholder">Корпус</label>
+            </div>
+            <div class="client-data_ceil">
+              <input
+                required
+                class="client-data_input"
+                tabindex="12"
+                autocomplete="false"
+                v-model="data.entrance"
+                type="text"
+              /><label class="client-data_placeholder">Подъезд</label>
+            </div>
+          </div>
+        </div>
+        <div
+          class="client-data_row client-data_row--inside"
+          v-if="$parent.user.rights.includes('11') && data.status == 2"
+        >
+          <div class="client-data_ceil">
+            <input
+              required
+              class="client-data_input"
+              tabindex="14"
+              autocomplete="false"
+              @dblclick="$event.target.classList.toggle('calendar')"
+              v-model="data.measuring_date"
+              @focus="$event.target.type = 'date'"
+              @blur="
+                $event.target.value == ''
+                  ? ($event.target.type = 'text')
+                  : false
+              "
+              :type="data.measuring_date == null ? 'text' : 'date'"
+            /><label class="client-data_placeholder">Дата замера</label>
+          </div>
+          <div class="client-data_ceil">
+            <input
+              required
+              class="client-data_input"
+              tabindex="15"
+              autocomplete="false"
+              @dblclick="$event.target.classList.toggle('calendar')"
+              v-model="data.measuring_time"
+              placeholder="Выберете время"
+              @focus="$event.target.type = 'time'"
+              @blur="
+                $event.target.value == ''
+                  ? ($event.target.type = 'text')
+                  : false
+              "
+              :type="data.measuring_time == null ? 'text' : 'time'"
+            /><label class="client-data_placeholder">Подъезд</label>
+          </div>
+        </div>
+        <div
+          class="client-data_row client-data_row--inside"
+          v-else-if="
+            $parent.user.rights.includes('12') &&
+            [5, 6, 7].includes(Number(data.status))
+          "
+        >
+          <div class="client-data_ceil">
+            <input
+              required
+              class="client-data_input"
+              tabindex="14"
+              autocomplete="false"
+              @dblclick="$event.target.classList.toggle('calendar')"
+              v-model="data.delivery_date"
+              :disabled="data.status == 'Завершённый'"
+              @focus="$event.target.type = 'date'"
+              @blur="
+                $event.target.value == ''
+                  ? ($event.target.type = 'text')
+                  : false
+              "
+              :type="data.delivery_date == null ? 'text' : 'date'"
+            /><label class="client-data_placeholder">Дата доставки</label>
+          </div>
+          <div class="client-data_ceil">
+            <input
+              required
+              class="client-data_input"
+              tabindex="15"
+              autocomplete="false"
+              v-model="data.delivery_time"
+              :disabled="data.status == 'Завершённый'"
+              @focus="$event.target.type = 'time'"
+              @blur="
+                $event.target.value == ''
+                  ? ($event.target.type = 'text')
+                  : false
+              "
+              :type="data.delivery_time == null ? 'text' : 'time'"
+            /><label class="client-data_placeholder">Время доставки</label>
+          </div>
+        </div>
+        <div v-else class="client-data_row">
+          <input
+            required
+            class="client-data_input"
+            tabindex="14"
+            autocomplete="false"
+            v-model="data.expectation"
+            @focus="$event.target.type = 'date'"
+            @blur="
+              $event.target.value == '' ? ($event.target.type = 'text') : false
+            "
+            :type="data.expectation == null ? 'text' : 'date'"
+          /><label class="client-data_placeholder">Дата поторной связи</label>
+        </div>
+        <div class="client-data_row">
+          <select
+            required
+            class="client-data_select"
+            id="conection"
+            v-if="GET_STATUSES.length"
+            tabindex="13"
+            v-model="data.status"
+          >
+            <option
+              v-for="status in GET_STATUSES"
+              :value="status.id"
+              :key="status.id"
+            >
+              {{ status.name }}
+            </option>
+          </select>
+          <label class="client-data_placeholder" for="conection"
+            >Статус заказа</label
+          >
+        </div>
       </section>
       <section class="application_poducts-table poducts-table"></section>
     </section>

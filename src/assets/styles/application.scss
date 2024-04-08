@@ -22,17 +22,33 @@
 
 .client-data {
     position: absolute;
-    &_heading{
+
+    &_heading {
         text-align: center;
         color: var(--dark-color);
     }
+
     &_row {
-        width: 100%;
+        width: 90%;
         box-sizing: border-box;
         position: relative;
-        border-bottom: 2px solid var(--medium-dark-color);;
-        margin-top: 1vh;
+        border: 2px solid var(--medium-dark-color);
+        ;
+        margin: 2vh auto;
         font-size: 12pt;
+
+        &--inside {
+            display: flex;
+        }
+    }
+
+    &_ceil {
+        width: 50%;
+        position: relative;
+        box-sizing: border-box;
+        &:last-child{
+            border-left: 2px solid var(--medium-dark-color);
+        }
     }
 
     &_placeholder {
@@ -40,15 +56,18 @@
         width: 100%;
         display: block;
         padding: 0 .5vw 0 .5vw;
-        top: 2vh;
+        top: .5vh;
         box-sizing: border-box;
         transition: all .3s;
+        pointer-events: none;
     }
 
-    &_input {
+
+    &_input,
+    &_select {
         display: block;
         width: 100%;
-        padding: 2vh .5vw .5vh .5vw;
+        padding: .5vh 0.5vw;
         border: none;
         background: none;
         box-sizing: border-box;
@@ -56,17 +75,26 @@
         outline: none;
 
         &:focus+.client-data_placeholder {
-            top: 0;
+            width: auto;
+            top: -1.5vh;
             font-size: 10pt;
+            background: var(--light-color);
 
             &::after {
                 content: ":";
             }
         }
 
+        &:valid {
+            background: var(--medium-light-color);
+        }
+
         &:valid+.client-data_placeholder {
-            top: 0;
+            width: auto;
+            top: -1.5vh;
             font-size: 10pt;
+            background: var(--light-color);
+
             &::after {
                 content: ":";
             }
