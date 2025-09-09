@@ -4,7 +4,6 @@ import router from "./router";
 import store from "./store";
 import ModalWindow from "./components/ModalWindow";
 
-let ws = new WebSocket("ws://server:81");
 // ws = new WebSocket("ws://localhost:81");
 
 const app = createApp(App);
@@ -13,7 +12,7 @@ app.component("modal-window", ModalWindow);
 
 app.config.globalProperties.$images = "";
 app.config.globalProperties.$connect = "/backend/";
-app.config.globalProperties.$ws = ws;
+app.config.globalProperties.$ws_path = "ws://komfort-socket.fox-click.ru";
 // app.config.globalProperties.$images = "http://backend/";
 
 app.config.globalProperties.$acceptNumber = (number) => {

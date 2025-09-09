@@ -798,7 +798,7 @@
   </main>
 </template>
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import MainLoad from "../MainLoad.vue";
 import api from "../../api";
 
@@ -815,6 +815,7 @@ export default {
   },
   methods: {
     ...mapMutations({ openModal: "setDataModalWindow" }),
+    ...mapActions(["sendWs"]),
     getStringDate(dateString) {
       if (dateString == "" || dateString == undefined) return "настоящее время";
       var options = {
@@ -1031,9 +1032,7 @@ export default {
         tab.data = text.data.dataPage;
         this.$parent.selectTab(tab);
         this.load = false;
-        this.$ws.send(
-          JSON.stringify({ type: "application", data: text.data.dataPage.id })
-        );
+        this.sendWs({ type: "application", data: text.data.dataPage.id });
       } else {
         console.error(text.data.text);
       }
@@ -1069,9 +1068,7 @@ export default {
         this.data.number = this.$acceptNumber(this.data.number);
         this.watch = true;
         this.load = false;
-        this.$ws.send(
-          JSON.stringify({ type: "application", data: this.data.id })
-        );
+        this.sendWs({ type: "application", data: this.data.id });
       } else {
         console.error(text.data.text);
       }

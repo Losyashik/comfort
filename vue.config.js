@@ -14,7 +14,7 @@ module.exports = {
       //https://cli.vuejs.org/guide/html-and-static-assets.html#disable-index-generation
       "/backend/*": {
         //everything from root
-        target: "http://backend/",
+        target: "http://komfort.fox-click.ru/",
         secure: false,
         ws: false,
       },
@@ -26,7 +26,7 @@ module.exports = {
       },
       "!/": {
         //except root, which is served by webpack's devserver, to faciliate instant updates
-        target: "http://backend/",
+        target: "http://komfort.fox-click.ru/",
         secure: false,
         ws: false,
       },

@@ -18,25 +18,10 @@ export default {
   },
 
   methods: {
-    ...mapActions({ updateMain: "fetchUpdateList" }),
+    ...mapActions(["connectSocket"]),
   },
   created() {
-    this.$ws.onmessage = (send) => {
-      send = JSON.parse(send.data);
-      this.updateMain(send);
-    };
-    this.$ws.onclose = (e) => {
-      switch (e.code) {
-        case 1000:
-          console.log("Normal close");
-          break;
-
-        default:
-          console.log("closed websocked connect");
-          window.location.reload();
-          break;
-      }
-    };
+    this.connectSocket(this.$ws_path);
   },
   watch: {
     modal() {

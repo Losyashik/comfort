@@ -23,6 +23,8 @@ export default {
     statuses: [],
     cites: [],
     sortByColumnDate: {},
+    socket: null,
+    isConnected: false,
   },
   getters: {
     GET_MAIN_LIST(state) {
@@ -377,6 +379,43 @@ export default {
         ctx.commit("SORTING_BY_COLUMN", ctx.state.sortByColumnDate);
       }
       // setTimeout(scan(ctx), 70000);
+    },
+    sendWs(ctx, data) {
+      ctx.state.socket.send(JSON.stringify(data));
+    },
+    connectSocket(ctx, path) {
+      ctx.state.socket = new WebSocket(path);
+
+      ctx.state.socket.onopen = () => {
+        console.log("WebSocket connected successfully");
+        ctx.state.isConnected = true;
+      };
+
+      ctx.state.socket.onmessage = (send) => {
+        send = JSON.parse(send.data);
+        ctx.dispatch("fetchUpdateList", send);
+      };
+
+      ctx.state.socket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+        ctx.state.isConnected = false;
+      };
+
+      ctx.state.socket.onclose = (e) => {
+        ctx.state.isConnected = false;
+        switch (e.code) {
+          case 1000:
+            console.log("Normal close");
+            break;
+
+          default:
+            console.log("closed websocked connect");
+            setTimeout(() => {
+              ctx.dispatch("connectSocket", path);
+            }, 3000);
+            break;
+        }
+      };
     },
   },
 };
