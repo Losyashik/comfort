@@ -195,7 +195,7 @@ export default {
       let st = e.target.parentNode.scrollTop;
       e.target.selected = !e.target.selected;
       setTimeout(() => (e.target.parentNode.scrollTop = st), 0);
-      this.focus();
+      // this.focus();
     },
     async getDataForm() {
       if (this.$route.params.product == this.$route.params.type) {
@@ -248,7 +248,7 @@ export default {
           };
         }
       }
-      const f = await fetch(this.$connect + "/admin/formList.php", {
+      const f = await fetch(this.$connect + "admin/formList.php", {
         method: "POST",
         body: JSON.stringify(this.data),
       }).then((response) => response.json());
@@ -270,8 +270,10 @@ export default {
       if (this.form.filter((tag) => tag.type == "file").length) {
         this.$refs.inputFile[0].images = [];
       }
+
       let app = this.$parent.$parent.$parent.$parent.$parent.$parent;
-      app.modal = await fetch(this.$connect + "/admin/addData.php", {
+
+      app.modal = await fetch(this.$connect + "admin/addData.php", {
         method: "POST",
         body: formData,
       }).then((response) => response.json());
@@ -297,7 +299,7 @@ export default {
       console.log(but);
       formData.append("table_name", but.name);
       formData.append("show", but.id == "show" ? 1 : 0);
-      await fetch("/backend/admin/showData.php", {
+      await fetch(this.$connect + "admin/showData.php", {
         method: "POST",
         body: formData,
       }).then((response) => response.json());

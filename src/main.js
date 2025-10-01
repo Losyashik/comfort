@@ -12,7 +12,7 @@ app.component("modal-window", ModalWindow);
 
 app.config.globalProperties.$images = "";
 app.config.globalProperties.$connect = "/backend/";
-app.config.globalProperties.$ws_path = "ws://komfort-socket.fox-click.ru";
+app.config.globalProperties.$ws_path = "ws://fox-click.ru:9081/";
 // app.config.globalProperties.$images = "http://backend/";
 
 app.config.globalProperties.$acceptNumber = (number) => {
